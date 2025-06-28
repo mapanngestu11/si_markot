@@ -31,6 +31,7 @@ class M_surat_masuk extends CI_Model
         $this->db->where($where);
         $this->db->update($table, $data);
     }
+
     function jumlah_data()
     {
         $this->db->select('count(tbl_surat_masuk.kode_pegawai) as jumlah');
@@ -57,6 +58,12 @@ class M_surat_masuk extends CI_Model
         $this->db->limit(1);
         $hsl = $this->db->get('tbl_surat_masuk');
         return $hsl;
-
     }
+    function get_byId($id_surat_masuk)
+    {
+       $this->db->select('*');
+       $this->db->where('id_surat_masuk',$id_surat_masuk);
+       $hsl = $this->db->get('tbl_surat_masuk');
+       return $hsl;
+   }
 }

@@ -36,7 +36,7 @@
             <div class="card card-outline card-info">
               <div class="card-header">
                 <h3 class="card-title">
-                  Buat Surat Masuk
+                  Update Data Surat Masuk
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -71,19 +71,10 @@
                  <div class="row mt-2">
                   <div class="col-md-12">
                    <label>Nomor Surat.</label>
-                   <select class="form-control" name="no_surat" required="">
-                    <option value=""> Pilih </option>
-                    <?php
-                    foreach ($ns->result_array() as $ks) :
-                      $no_surat = $ks['no_surat'];
-                      ?>
-                      <
-                      <option value="<?php echo $no_surat;?>"><?php echo $no_surat;?></option>
-                    <?php endforeach;?>
-                  </select>
-                </div>
-              </div>
-              <div class="row mt-2">
+                   <input type="text" name="no_surat" class="form-control">
+                 </div>
+               </div>
+               <div class="row mt-2">
                 <div class="col-md-6">
                   <label>Tanggal Surat</label>
                   <input type="date" name="tgl_surat_masuk" class="form-control" required="">
@@ -113,15 +104,12 @@
             </div>
           </div>
           <hr>
-          <button type="submit" class="btn btn-primary">Buat Surat</button>
+          <button type="submit" class="btn btn-primary">Update Surat</button>
         </div>
-        <div class="card-footer">
-         Visit <a href="https://github.com/summernote/summernote/">Summernote</a> documentation for more examples and information about the plugin.
-       </div>
-     </div>
-   </div>
-   <!-- /.col-->
- </div>
+      </div>
+    </div>
+    <!-- /.col-->
+  </div>
 </section>
 <!-- /.content -->
 </div>

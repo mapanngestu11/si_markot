@@ -42,7 +42,7 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
-                  <a href="<?= site_url('surat/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Surat Masuk</a>
+                  <a href="<?= site_url('surat/create_surat_masuk') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Surat Masuk</a>
                   <br>
                   <br>
 
@@ -76,7 +76,7 @@
                           <td><?php echo $asal_surat;?></td>
                           <td><?php echo $nip_pegawai;?></td>
                           <td>
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#modal-edit<?php echo $id_surat_masuk;?>" style="color: white;"> Edit </button> 
+                            <a href="<?= site_url('surat/update_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white"> Edit </a> 
                             <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> Hapus</button> 
                           </td>
                         </tr>
@@ -99,43 +99,6 @@
 
 
       <!-- /.modal -->
-      <?php
-      $no = 0;
-      foreach ($masuk->result_array() as $row) :
-
-        $no++;
-        $id_surat_masuk           = $row['id_surat_masuk'];
-
-        ?>
-        <!-- awal modal -->
-        <div class="modal fade" id="modal-hapus<?php echo $id_surat_masuk;?>">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Hapus Data User</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form action="<?php echo base_url('user/delete') ?>" method="POST">
-                  <div class="form-group">
-                    <p>Apakah anda yakin ingin menghapus, <strong><?php echo $id_surat_masuk;?></strong> ? </p>
-                    <input type="hidden" name="id_surat_masuk" value="<?php echo $id_surat_masuk;?>">
-                  </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </form>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-      <?php endforeach;?>
 
       <style type="text/css">
         .photo{
@@ -157,13 +120,13 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Edit Data User</h4>
+                <h4 class="modal-title">Edit Data Surat Masuk</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <form action="<?php echo base_url('user/update') ?>" method="POST" enctype="multipart/form-data">
+                <form action="#" method="POST" enctype="multipart/form-data">
                   <div class="form-group">
 
                   </div>
