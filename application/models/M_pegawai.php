@@ -49,4 +49,17 @@ function cek_kode_nip($nip)
   $hsl = $this->db->get('tbl_pegawai');
   return $hsl;
 }
+function tampil_data_divisi()
+{
+ $this->db->select('
+   a.*,
+   b.nama_divisi,
+   c.user_level');
+ $this->db->from('tbl_pegawai as a');
+ $this->db->join('tbl_divisi as b', 'b.kode_unor = a.kode_unor','left');
+ $this->db->join('tbl_user as c', 'a.nip = c.nip','left');
+ $this->db->where('c.user_level','3');
+ $query = $this->db->get();
+ return $query;
+}
 }

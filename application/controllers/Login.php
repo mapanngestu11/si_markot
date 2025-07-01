@@ -10,56 +10,91 @@ class Login extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('Login');
+		$data['title'] = 'SI MARKOT | PMI Kota Tangerang';
+		$this->load->view('Login',$data);
 	}
 
-	// function auth()
-	// {
-	// 	$username = strip_tags(str_replace("'", "", $this->input->post('username')));
-	// 	$password = strip_tags(str_replace("'", "", $this->input->post('password')));
-	// 	$u = $username;
-	// 	$p = $password;
-	// 	$cadmin = $this->m_login->cekadmin($u, $p);
-	// 	json_encode($cadmin);
-	// 	if ($cadmin->num_rows() > 0) {
-	// 		// echo "berhasil";
-	// 		// die();
-	// 		$this->session->set_userdata('masuk', true);
-	// 		$this->session->set_userdata('user', $u);
-	// 		$xcadmin = $cadmin->row_array();
-	// 		if ($xcadmin['hak_akses'] == '1') {
-	// 			$this->session->set_userdata('akses', '1');
-	// 			$id = $xcadmin['id'];
-	// 			$nama_lengkap = $xcadmin['nama_lengkap'];
-	// 			$hak_akses = $xcadmin['hak_akses'];
-	// 			$this->session->set_userdata('id', $id);
-	// 			$this->session->set_userdata('nama_lengkap', $nama_lengkap);
-	// 			$this->session->set_userdata('hak_akses', $hak_akses);
-	// 			redirect('belakang/Home');
-	// 		} else {
-	// 			$this->session->set_userdata('akses', '1');
-	// 			$id = $xcadmin['id'];
-	// 			$nama_lengkap = $xcadmin['nama_lengkap'];
-	// 			$hak_akses = $xcadmin['hak_akses'];
-	// 			$this->session->set_userdata('id', $id);
-	// 			$this->session->set_userdata('nama_lengkap', $nama_lengkap);
-	// 			$this->session->set_userdata('hak_akses', $hak_akses);
-	// 			redirect('belakang/Home');
-	// 		}
-	// 	} else {
+	function auth()
+	{
+		$username = strip_tags(str_replace("'", "", $this->input->post('username')));
+		$password = strip_tags(str_replace("'", "", $this->input->post('password')));
+		$u = $username;
+		$p = $password;
 
-	// 		$this->session->set_flashdata('msg', '<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert"><span class="fa fa-close"></span></button>Username Atau Password Salah</div>');
-	// 		redirect('login');
-	// 	}
-	// }
+
+		$cadmin = $this->m_login->cek_login($u, $p);
+		json_encode($cadmin);
+
+		if ($cadmin->num_rows() > 0) {
+
+			$this->session->set_userdata('masuk', true);
+			$this->session->set_userdata('user', $u);
+			$data_ses = $cadmin->row_array();
+			if ($data_ses['user_level'] == '3') {
+
+				$this->session->set_userdata('akses', '3');
+
+				$nama = $data_ses['nama'];
+				$nip  = $data_ses['nip'];
+				$jabatan = $data_ses['jabatan'];
+				$user_level = $data_ses['user_level'];
+				$id_pegawai = $data_ses['id_pegawai'];
+				$kode_unor  = $data_ses['kode_unor'];
+
+				$this->session->set_userdata('nama', $nama);
+				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('jabatan', $jabatan);
+				$this->session->set_userdata('user_level', $user_level);
+				$this->session->set_userdata('id_pegawai', $id_pegawai);
+				$this->session->set_userdata('kode_unor', $kode_unor);
+
+				redirect('Homepage');
+			} elseif($data_ses['user_level'] == '2') {
+				$this->session->set_userdata('akses', '2');
+
+				$nama = $data_ses['nama'];
+				$nip  = $data_ses['nip'];
+				$jabatan = $data_ses['jabatan'];
+				$user_level = $data_ses['user_level'];
+				$id_pegawai = $data_ses['id_pegawai'];
+				$kode_unor  = $data_ses['kode_unor'];
+
+				$this->session->set_userdata('nama', $nama);
+				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('jabatan', $jabatan);
+				$this->session->set_userdata('user_level', $user_level);
+				$this->session->set_userdata('id_pegawai', $id_pegawai);
+				$this->session->set_userdata('kode_unor', $kode_unor);
+
+				redirect('Homepage');
+			}else{
+				$this->session->set_userdata('akses', '1');
+
+				$nama = $data_ses['nama'];
+				$nip  = $data_ses['nip'];
+				$jabatan = $data_ses['jabatan'];
+				$user_level = $data_ses['user_level'];
+				$id_pegawai = $data_ses['id_pegawai'];
+				$kode_unor  = $data_ses['kode_unor'];
+
+				$this->session->set_userdata('nama', $nama);
+				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('jabatan', $jabatan);
+				$this->session->set_userdata('user_level', $user_level);
+				$this->session->set_userdata('id_pegawai', $id_pegawai);
+				$this->session->set_userdata('kode_unor', $kode_unor);
+
+				redirect('Homepage');
+			}
+		} else {
+
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert"><span class="fa fa-close"></span></button>Username Atau Password Salah</div>');
+			redirect('login');
+		}
+	}
 
 	public function logout()
 	{
-		// date_default_timezone_set("ASIA/JAKARTA");
-		// $last_login = date('Y-m-d H:i:s');
-		// $nama_lengkap = $this->session->userdata('nama_lengkap');
-
-		// $this->m_login->logout($last_login, $nama_lengkap, 'tbl_user');
 
 		$this->session->sess_destroy();
 		redirect('login');

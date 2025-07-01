@@ -43,23 +43,27 @@
               <div class="card-body">
                 <div class="form-group">
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label>Tanggal Surat keluar</label>
                       <input type="date" name="tgl_surat_keluar" class="form-control">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                      <label>Nomor Surat</label>
+                      <input type="text" name="no_surat" class="form-control" id="no_surat" readonly="">
+                    </div>
+                    <div class="col-md-5">
                       <label>Kode Surat</label>
-                      <select class="form-control" name="id_kode">
+                      <select class="form-control" name="id_kode" id="id_kode">
                         <option value=""> Pilih </option>
                         <?php foreach ($kode_surat->result_array() as $ks ):
-                          $kode_surat = $ks['no_surat'];
+                          $kode_surat = $ks['kode_surat'];
                           ?> 
                           <option value="<?php echo $kode_surat;?>"><?php echo $kode_surat;?></option>
                         <?php endforeach;?>
                       </select>
                     </div>
                   </div>
-                  <div class="row mt-5">
+                  <div class="row mt-2">
                     <div class="col-md-6">
                       <label>Bulan</label>
                       <select class="form-control" name="bulan">
@@ -142,6 +146,7 @@
     </div>
     <!-- /.content-wrapper -->
 
+
     <?php include 'layouts/footer.php';?>
 
     <!-- Control Sidebar -->
@@ -153,6 +158,24 @@
   <!-- ./wrapper -->
 
   <?php include 'layouts/js.php';?>
+  <script>
+    $('#id_kode').change(function() {
+      let kode = $(this).val();
+      if (kode !== '') {
+        $.ajax({
+          url: '<?= base_url("surat/cek_nomor_surat"); ?>', 
+          method: 'POST',
+          data: { kode_surat: kode },
+          dataType: 'json',
+          success: function(res) {
+            $('#no_surat').val(res.nomor_surat);
+          }
+        });
+      } else {
+        $('#no_surat').val('');
+      }
+    });
 
+  </script>
 </body>
 </html>

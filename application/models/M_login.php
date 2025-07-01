@@ -2,10 +2,23 @@
 class M_login extends CI_Model{
 
 
-	function cekadmin($u,$p){
+	function cek_login($u,$p){
 
-		$hasil=$this->db->query("SELECT * FROM tbl_user WHERE username='$u' AND password =md5('$p')");
+		$this->db->select('
+			a.nama,
+			a.nip,
+			a.jabatan,
+			a.user_level,
+			b.id_pegawai,
+			b.kode_unor
+			');
+		$this->db->join('tbl_pegawai as b', 'a.nip = b.nip','left');
+		$this->db->join('tbl_divisi as c' ,'b.kode_unor = c.kode_unor','left');
+		$this->db->where('username',$u);
+		$this->db->where('password',md5($p));
+		$hasil = $this->db->get('tbl_user as a');
 		return $hasil;
+
 	}
 
 	function logout($last_login,$nama_lengkap){

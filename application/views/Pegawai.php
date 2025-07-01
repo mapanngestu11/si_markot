@@ -194,6 +194,8 @@
                   <label>Divisi</label>
                   <select class="form-control" name="kode_unor" required="">
                     <option value=""> Pilih </option>
+                    <option value="admin">admin operator</option>
+                    <option value="pimpinan">pimpinan</option>
                     <?php
                     foreach ($divisi->result_array() as $nd) :
                       $kode_unor = $nd['kode_unor'];
@@ -320,12 +322,13 @@
                <div class="row mt-2">
                 <div class="col-md-6">
                   <label>NIP</label>
-                  <input type="text" name="nip" class="form-control" placeholder="<?php echo $nip;?>">
+                  <input type="text" name="nip" class="form-control" value="<?= set_value('nip', $nip); ?>">
+                  <input type="hidden" name="nip_lama" value="<?= $nip ?>">
                   <input type="hidden" name="id_pegawai" value="<?php echo $id_pegawai;?>">
                 </div>
                 <div class="col-md-6">
                   <label>NIK</label>
-                  <input type="text" name="nik" class="form-control">
+                  <input type="text" name="nik" class="form-control" value="<?php echo $nik;?>">
                 </div>
               </div>
               <div class="row mt-2">
@@ -397,16 +400,24 @@
                 </div>
                 <div class="col-md-4"> 
                   <label>Divisi</label>
-                  <select class="form-control" name="kode_unor" required="">
-                    <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?> </option>
-                    <?php
-                    foreach ($divisi->result_array() as $nd) :
-                      $kode_unor = $nd['kode_unor'];
-                      $nama_divisi = $nd['nama_divisi'];
-                      ?>
-                      <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?></option>
-                    <?php endforeach;?>
-                  </select>
+                  <?php
+                  if ($kode_unor == 'admin' || $kode_unor == 'pimpinan') { ?>
+                    <input type="text" class="form-control" value="<?php echo $kode_unor;?>" readonly>
+                  <?php }else{ ?>
+                    <select class="form-control" name="kode_unor" required="">
+                      <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?> </option>
+
+                      <option value="admin">admin operator</option>
+                      <option value="pimpinan">pimpinan</option>
+                      <?php
+                      foreach ($divisi->result_array() as $nd) :
+                        $kode_unor = $nd['kode_unor'];
+                        $nama_divisi = $nd['nama_divisi'];
+                        ?>
+                        <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?></option>
+                      <?php endforeach;?>
+                    </select>
+                  <?php } ?>
                 </div>
               </div>
               <div class="row mt-2">

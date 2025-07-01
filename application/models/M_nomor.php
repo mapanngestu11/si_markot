@@ -2,16 +2,16 @@
 class M_nomor extends CI_Model
 {
 
-    private $_table = "tbl_nomor_surat";
+    private $_table = "tbl_kode_surat";
 
     function tampil_data()
     {
-        return $this->db->get('tbl_nomor_surat');
+        return $this->db->get('tbl_kode_surat');
     }
     function detail_kegiatan($id_kode)
     {
         $this->db->where('id_kode',$id_kode);
-        return $this->db->get('tbl_nomor_surat');
+        return $this->db->get('tbl_kode_surat');
     }
 
 
@@ -22,7 +22,7 @@ class M_nomor extends CI_Model
 
     function delete_data($id_kode)
     {
-        $hsl = $this->db->query("DELETE FROM tbl_nomor_surat WHERE id_kode='$id_kode'");
+        $hsl = $this->db->query("DELETE FROM tbl_kode_surat WHERE id_kode='$id_kode'");
         return $hsl;
     }
 
@@ -33,29 +33,29 @@ class M_nomor extends CI_Model
     }
     function jumlah_data()
     {
-        $this->db->select('count(tbl_nomor_surat.kode_pegawai) as jumlah');
-        $hsl = $this->db->get('tbl_nomor_surat');
+        $this->db->select('count(tbl_kode_surat.kode_pegawai) as jumlah');
+        $hsl = $this->db->get('tbl_kode_surat');
         return $hsl;
     }
     function cek_kode_unor($kode_unor)
     {
         $this->db->select('*');
         $this->db->where('kode_unor',$kode_unor);
-        $hsl = $this->db->get('tbl_nomor_surat');
+        $hsl = $this->db->get('tbl_kode_surat');
         return $hsl;
     }
     function get_kode($kode_surat)
     {
         $this->db->select('kode_surat');
         $this->db->where('kode_surat',$kode_surat);
-        $hsl = $this->db->get('tbl_nomor_surat');
+        $hsl = $this->db->get('tbl_kode_surat');
         return $hsl;
 
     }
     function tampil_data_nama()
     {
         $this->db->select('kode_unor,nama_divisi');
-        $hsl = $this->db->get('tbl_nomor_surat');
+        $hsl = $this->db->get('tbl_kode_surat');
         return $hsl;
     }
     public function get_last_number_by_month($month, $year)
@@ -68,7 +68,7 @@ class M_nomor extends CI_Model
         $this->db->order_by('id_kode', 'DESC');
         $this->db->limit(1);
 
-        $query = $this->db->get('tbl_nomor_surat');
+        $query = $this->db->get('tbl_kode_surat');
         if ($query->num_rows() > 0) {
             $parts = explode('/', $query->row()->no_surat);
             return (int)$parts[0];

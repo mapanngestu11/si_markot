@@ -9,11 +9,16 @@
         <a href="../../index2.html" class="h1"><b>Si</b> Markot</a>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">Silahkan login untuk mengelola Surat.</p>
-
-        <form action="../../index3.html" method="post">
+       <?php if ($this->session->flashdata('msg')): ?>
+        <p class="text-danger">
+          <?= $this->session->flashdata('msg'); ?>
+        </p>
+        <?php else: ?>
+          <p class="login-box-msg">Silahkan login untuk mengelola Surat.</p>
+        <?php endif; ?>
+        <form action="<?= site_url('login/auth') ?>" method="post">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email">
+            <input type="text" class="form-control" name="username" placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -21,7 +26,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password">
+            <input type="password" class="form-control" name="password" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -39,7 +44,7 @@
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <a href="<?= site_url('Homepage') ?>" class="btn btn-primary btn-block">Sign In</a>
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
             <!-- /.col -->
           </div>

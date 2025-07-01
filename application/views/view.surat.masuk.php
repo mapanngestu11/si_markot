@@ -36,87 +36,79 @@
             <div class="card card-outline card-info">
               <div class="card-header">
                 <h3 class="card-title">
-                  Update Data Surat Masuk
+                  Lihat Data Surat Masuk
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="form-group">
-                  <form action="<?php echo base_url('surat/proses_update_surat_masuk') ?>" method="POST" enctype="multipart/form-data">
-                    <?php foreach ($data_ms->result_array() as $ms):
-
-
-                      ?>
+                  <form action="#" method="POST" enctype="multipart/form-data">
+                    <?php foreach ($data_ms->result_array() as $ms): ?>
                       <div class="row">
                         <div class="col-md-6">
                           <label>Sifat Surat</label>
-                          <select class="form-control" name="sifat_surat" required="">
-                            <option value="<?php echo $ms['sifat_surat'];?>"> <?php echo $ms['sifat_surat'];?> </option>
-                            <option value="Rahasia"> Rahasia </option>
-                            <option value="Penting"> Penting </option>
-                            <option value="Rutin/Biasa"> Rutin/Biasa </option>
-                            <option value="Segera/Darurat"> Segera/Darurat </option>
-                          </select>
+                          <input type="text" class="form-control" value="<?php echo $ms['sifat_surat'];?>" readonly>
                         </div>
                         <div class="col-md-6">
                           <label>Tanggal Terima</label>
-                          <input type="date" name="tgl_terima" class="form-control" required="" value="<?php echo $ms['tgl_terima'];?>">
+                          <?php
+
+                          $tgl_terima = $ms['tgl_terima'];
+                          list($th, $bln, $tgl_hari) = explode('-', $tgl_terima);
+                          $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+                          ?>
+                          
+                          <input type="text" class="form-control" value="<?php echo $tgl_hari . ' ' . $bulan[(int)$bln] . ' ' . $th;?>" readonly>
+
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <label>Nomor Agenda</label>
-                        <input type="text" name="no_agenda" class="form-control" value="<?php echo $ms['no_agenda'];?>" readonly>
+                        <div class="col-md-12">
+                          <label>Nomor Agenda</label>
+                          <input type="text" name="no_agenda" class="form-control" value="<?php echo $ms['no_agenda'];?>" readonly>
+                        </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col-md-12">
                           <label>Perihal</label>
-                          <input type="text" name="perihal" class="form-control" required="" value="<?php echo $ms['perihal'];?>" placeholder="Hal.">
+                          <input type="text" name="perihal" class="form-control" required="" value="<?php echo $ms['perihal'];?>" readonly>
                         </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col-md-12">
                           <label>Nomor Surat.</label>
-                          <input type="text" name="no_surat" class="form-control" value="<?php echo $ms['no_surat'];?>">
+                          <input type="text" name="no_surat" class="form-control" value="<?php echo $ms['no_surat'];?>" readonly>
                         </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col-md-6">
                           <label>Tanggal Surat</label>
-                          <input type="date" name="tgl_surat_masuk" class="form-control" required="" value="<?php echo $ms['tgl_surat_masuk'];?>">
+                          <?php
+                          $tgl_surat = $ms['tgl_surat_masuk'];
+                          list($th, $bln, $tgl_hari) = explode('-', $tgl_surat);
+                          $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+                          ?>
+                          <input type="text" name="tgl_surat_masuk" class="form-control" required="" value="<?php echo $tgl_hari . ' ' . $bulan[(int)$bln] . ' ' . $th;?>" readonly>
                         </div>
                         <div class="col-md-6">
                           <label>Asal Surat</label>
-                          <input type="text" name="asal_surat" class="form-control" required="" placeholder="Asal Surat" value="<?php echo $ms['asal_surat'];?>">
+                          <input type="text" name="asal_surat" class="form-control" required="" placeholder="Asal Surat" value="<?php echo $ms['asal_surat'];?>" readonly>
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-md-8"> 
-                          <label>File Surat Masuk</label>
-                          <input type="file" name="file_surat_masuk" class="form-control">
-                        </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-12">
                           <label>Download File Surat</label>
                           <br>
                           <a href="<?php echo base_url()."assets/upload/"; ?><?php echo $ms['file_surat_masuk'];?>">Link Download</a>
                         </div>
                       </div>
-                      <div class="row mt-3">
-                        <div class="col-md-8">
-                          <label>Ditujukan Oleh :</label>
-                          <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Penerima" style="width: 100%;" required="">
-                            <option> Pilih </option>
-                            <?php foreach ($pegawai->result_array() as $pg): ?>
-                              <option value="<?php echo $pg['nip']; ?>">
-                                <?php echo $pg['nama']; ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
-                        </div>
-                      </div>
+
                     <?php endforeach;?>
                   </div>
                   <hr>
-                  <button type="submit" class="btn btn-primary">Update Surat</button>
+                  <a href="<?= site_url('surat/masuk') ?>" class="btn btn-primary">Kembali</a>
                 </div>
               </form>
             </div>

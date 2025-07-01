@@ -13,22 +13,22 @@
             <img src="<?php echo base_url()."assets/"; ?>dist/img/user_logo.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Nama yang login</a>
+            <?php
+            $hak_akses =  $this->session->userdata('user_level');
+
+            if ($hak_akses == '1') {
+              $user_level = 'Pimpinan';
+            }elseif ($hak_akses == '2') {
+              $user_level ='Admin';
+            }else{
+              $user_level ='Admin Divisi';
+            }
+            ?>
+            <a href="#" class="d-block">  <?= $this->session->userdata('nama'); ?> | <strong><?php echo $user_level;?></strong>  </a>
           </div>
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
-          <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <!-- Sidebar Menu -->
         <?php include 'menu.php';?>
         <!-- /.sidebar-menu -->

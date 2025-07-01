@@ -41,71 +41,73 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label>Sifat Surat</label>
-                      <select class="form-control" name="sifat_surat" required="">
-                        <option value=""> Pilih </option>
-                        <option value="Rahasia"> Rahasia </option>
-                        <option value="Penting"> Penting </option>
-                        <option value="Rutin/Biasa"> Rutin/Biasa </option>
-                        <option value="Segera/Darurat"> Segera/Darurat </option>
-                      </select>
+                <form action="<?php echo base_url('surat/proses_add_surat_masuk') ?>" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label>Sifat Surat</label>
+                        <select class="form-control" name="sifat_surat" required="">
+                          <option value=""> Pilih </option>
+                          <option value="Rahasia"> Rahasia </option>
+                          <option value="Penting"> Penting </option>
+                          <option value="Rutin/Biasa"> Rutin/Biasa </option>
+                          <option value="Segera/Darurat"> Segera/Darurat </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <label>Tanggal Terima</label>
+                        <input type="date" name="tgl_terima" class="form-control" required="">
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                      <label>Tanggal Terima</label>
-                      <input type="date" name="tanggal_terima" class="form-control" required="">
+                    <div class="row mt-2">
+                      <label>Nomor Agenda</label>
+                      <input type="text" name="no_agenda" class="form-control" value="<?php echo $no_agenda;?>" readonly>
                     </div>
-                  </div>
-                  <div class="row mt-2">
-                    <label>Nomor Agenda</label>
-                    <input type="text" name="no_agenda" class="form-control" value="<?php echo $no_agenda;?>" readonly>
-                  </div>
-                  <div class="row mt-2">
-                   <div class="col-md-12">
-                     <label>Perihal</label>
-                     <input type="text" name="perihal" class="form-control" required="" placeholder="Hal.">
+                    <div class="row mt-2">
+                     <div class="col-md-12">
+                       <label>Perihal</label>
+                       <input type="text" name="perihal" class="form-control" required="" placeholder="Hal.">
+                     </div>
+                   </div>
+                   <div class="row mt-2">
+                    <div class="col-md-12">
+                     <label>Nomor Surat.</label>
+                     <input type="text" name="no_surat" class="form-control">
                    </div>
                  </div>
                  <div class="row mt-2">
-                  <div class="col-md-12">
-                   <label>Nomor Surat.</label>
-                   <input type="text" name="no_surat" class="form-control">
-                 </div>
-               </div>
-               <div class="row mt-2">
-                <div class="col-md-6">
-                  <label>Tanggal Surat</label>
-                  <input type="date" name="tgl_surat_masuk" class="form-control" required="">
+                  <div class="col-md-6">
+                    <label>Tanggal Surat</label>
+                    <input type="date" name="tgl_surat_masuk" class="form-control" required="">
+                  </div>
+                  <div class="col-md-6">
+                    <label>Asal Surat</label>
+                    <input type="text" name="asal_surat" class="form-control" required="" placeholder="Asal Surat">
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label>Asal Surat</label>
-                  <input type="text" name="asal_surat" class="form-control" required="" placeholder="Asal Surat">
+                <div class="row mt-2">
+                  <div class="col-md-12"> 
+                    <label>File Surat Masuk</label>
+                    <input type="file" name="file_surat_masuk" class="form-control">
+                  </div>
                 </div>
-              </div>
-              <div class="row mt-2">
-                <div class="col-md-12"> 
-                  <label>File Surat Masuk</label>
-                  <input type="file" name="file_surat_masuk" class="form-control">
+                <div class="row mt-3">
+                 <div class="col-md-8">
+                   <label>Ditujukan Oleh :</label>
+                   <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pegawai" style="width: 100%;">
+                    <?php foreach ($pegawai->result_array() as $pg): ?>
+                      <option value="<?= $pg['nip']; ?>">
+                        <?= $pg['nama']; ?> | [<?= strtoupper($pg['nama_divisi']); ?>]
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
-              </div>
-              <div class="row mt-3">
-               <div class="col-md-8">
-                 <label>Ditujukan Oleh :</label>
-                 <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                   <?php foreach ($pegawai->result_array() as $pg): ?>
-                    <option value="<?php echo $pg['nip']; ?>">
-                      <?php echo $pg['nama']; ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
               </div>
             </div>
+            <hr>
+            <button type="submit" class="btn btn-primary">Buat Surat</button>
           </div>
-          <hr>
-          <button type="submit" class="btn btn-primary">Buat Surat</button>
-        </div>
+        </form>
       </div>
     </div>
     <!-- /.col-->
