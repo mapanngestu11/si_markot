@@ -12,10 +12,11 @@ class User  extends CI_Controller
         $this->load->library('upload');
         $this->load->model('M_user');
 
-        // $this->load->model('M_tagihan');
-        // $this->load->model('M_pengajuan');
-        // $this->load->model('M_instansi');
-
+        if($this->session->userdata('masuk') != TRUE){
+            $this->session->set_flashdata('msg','<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert"><span class="fa fa-close"></span></button>Login Terlebih Dahulu .</div>');
+            $url=base_url('Login');
+            redirect($url);
+        }
         
     }
 
@@ -30,13 +31,13 @@ class User  extends CI_Controller
     public function create()
     {
 
-     $config['upload_path'] = './assets/upload/'; 
-     $config['allowed_types'] = 'jpg|png|jpeg';
-     $config['encrypt_name'] = TRUE; 
-     $config['max_size']  = 10000;
+       $config['upload_path'] = './assets/upload/'; 
+       $config['allowed_types'] = 'jpg|png|jpeg';
+       $config['encrypt_name'] = TRUE; 
+       $config['max_size']  = 10000;
 
-     $this->upload->initialize($config);
-     if (!empty($_FILES['ttd']['name'])) {
+       $this->upload->initialize($config);
+       if (!empty($_FILES['ttd']['name'])) {
         if ($this->upload->do_upload('ttd')) {
             $gbr = $this->upload->data();
 
@@ -81,33 +82,33 @@ class User  extends CI_Controller
             ]));
             redirect('user'); 
         } else {
-         $this->session->set_flashdata('toast', json_encode([
+           $this->session->set_flashdata('toast', json_encode([
             'icon' => 'warning',  
             'title' => 'Ukuran atau format file tidak sesuai !'
         ]));
-         redirect('user'); 
-     }
- } else {
+           redirect('user'); 
+       }
+   } else {
 
-     $this->session->set_flashdata('toast', json_encode([
+       $this->session->set_flashdata('toast', json_encode([
         'icon' => 'danger',  
         'title' => 'Data Gagal Tersimpan!'
     ]));
-     redirect('user'); 
- }
+       redirect('user'); 
+   }
 }
 
 
 public function update()
 {
 
- $config['upload_path'] = './assets/upload/'; 
- $config['allowed_types'] = 'jpg|png|jpeg';
- $config['encrypt_name'] = TRUE; 
- $config['max_size']  = 10000;
+   $config['upload_path'] = './assets/upload/'; 
+   $config['allowed_types'] = 'jpg|png|jpeg';
+   $config['encrypt_name'] = TRUE; 
+   $config['max_size']  = 10000;
 
- $this->upload->initialize($config);
- if (!empty($_FILES['ttd']['name'])) {
+   $this->upload->initialize($config);
+   if (!empty($_FILES['ttd']['name'])) {
     if ($this->upload->do_upload('ttd')) {
         $gbr = $this->upload->data();
 
@@ -156,12 +157,12 @@ public function update()
         ]));
         redirect('user'); 
     } else {
-     $this->session->set_flashdata('toast', json_encode([
+       $this->session->set_flashdata('toast', json_encode([
         'icon' => 'warning',  
         'title' => 'Ukuran atau format file tidak sesuai !'
     ]));
-     redirect('user'); 
- }
+       redirect('user'); 
+   }
 
 
 }else{

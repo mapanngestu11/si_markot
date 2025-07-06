@@ -58,7 +58,7 @@
                         <th>Nomor Surat</th>
                         <th>perihal</th>
                         <th>Asal Surat</th>
-                        <th>Ditujukan Oleh</th>
+                        <th>Tanggal Surat Diterima</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -74,17 +74,23 @@
                         $asal_surat                = $row['asal_surat'];
                         $nip_pegawai = $row['nip_pegawai'];
                         $nama = $row['nama'];
+                        $tgl_terima = $row['tgl_terima'];
+                        list($th, $bln, $tgl_hari) = explode('-', $tgl_terima);
+                        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
                         ?>
                         <tr>
                           <td style="width: 5%"><?php echo $no;?></td>
                           <td><?php echo $no_surat;?></td>
                           <td><?php echo $perihal;?></td>
                           <td><?php echo $asal_surat;?></td>
-                          <td><?php echo $nama;?></td>
+                          <td><?php echo $tgl_hari . ' ' . $bulan[(int)$bln] . ' ' . $th;?></td>
                           <td>
                             <?php if ($hak_akses == '2') { ?>
                               <a href="<?= site_url('surat/update_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white"> Edit </a> 
-                              <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> Hapus</button> 
+                              <a href="<?= site_url('surat/view_disposisi/' . $id_surat_masuk); ?>" class="btn btn-success">Disposisi</a> 
+                              <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> Hapus</button>
+
                             <?php }else{ ?>
                               <a href="<?= site_url('surat/view_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-primary">Lihat Surat</a>
                             <?php } ?>

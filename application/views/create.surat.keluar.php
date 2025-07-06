@@ -42,6 +42,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="form-group">
+                 <form action="<?php echo base_url('surat/proses_add_surat_keluar') ?>" method="POST" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-4">
                       <label>Tanggal Surat keluar</label>
@@ -53,12 +54,13 @@
                     </div>
                     <div class="col-md-5">
                       <label>Kode Surat</label>
-                      <select class="form-control" name="id_kode" id="id_kode">
+                      <select class="form-control" name="id_kode" id="cek_kode">
                         <option value=""> Pilih </option>
                         <?php foreach ($kode_surat->result_array() as $ks ):
                           $kode_surat = $ks['kode_surat'];
+                          $idks    = $ks['id_kode'];
                           ?> 
-                          <option value="<?php echo $kode_surat;?>"><?php echo $kode_surat;?></option>
+                          <option value="<?php echo $idks;?>"><?php echo $kode_surat;?></option>
                         <?php endforeach;?>
                       </select>
                     </div>
@@ -67,7 +69,6 @@
                     <div class="col-md-6">
                       <label>Bulan</label>
                       <select class="form-control" name="bulan">
-                        <option value=""> Pilih </option>
                         <option value=""> Pilih </option>
                         <option value="Januari">Januari</option>
                         <option value="Februari">Februari</option>
@@ -93,19 +94,24 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row mt-5">
+                  <div class="row mt-2">
                     <div class="col-md-12">
                       <label>Lampiran</label>
-                      <input type="file" name="lampiran" class="form-control">
+                      <input type="file" name="lampiran" id="lampiran" class="form-control" accept="application/pdf">
+                      <p id="jumlah_halaman"></p>
                     </div>
                   </div>
-                  <div class="row mt-5">
-                    <div class="col-md-12">
+                  <div class="row mt-2">
+                    <div class="col-md-6">
                       <label>Perihal</label>
                       <input type="text" name="perihal" class="form-control">
                     </div>
+                    <div class="col-md-6">
+                      <label>Kepada / Tujuan</label>
+                      <input type="text" name="kepada" class="form-control">
+                    </div>
                   </div>
-                  <div class="row mt-5">
+                  <div class="row mt-2">
                     <div class="col-md-12">
                       <label>Isi Surat</label>
                       <div class="card card-outline card-info">
@@ -121,13 +127,14 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="row mt-3">
                     <div class="col-md-8">
-                      <label>Ditujukan Oleh :</label>
-                      <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                      <label>Disahkan Oleh :</label>
+                      <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pegawai" style="width: 100%;" required="">
                         <?php foreach ($pegawai->result_array() as $pg): ?>
-                          <option value="<?php echo $pg['nip']; ?>">
-                            <?php echo $pg['nama']; ?>
+                          <option value="<?= $pg['nip_pegawai']; ?>">
+                            <?= $pg['nama']; ?> | [PIMPINAN]
                           </option>
                         <?php endforeach; ?>
                       </select>
@@ -135,47 +142,77 @@
                   </div>
                 </div>
                 <hr>
+                <a href="<?php echo base_url('surat/keluar') ?>" class="btn btn-secondary">Kembali</a>
                 <button type="submit" class="btn btn-primary">Buat Surat</button>
               </div>
-            </div>
+            </form>
           </div>
-          <!-- /.col-->
         </div>
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-
-    <?php include 'layouts/footer.php';?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- /.col-->
+      </div>
+    </section>
+    <!-- /.content -->
   </div>
-  <!-- ./wrapper -->
+  <!-- /.content-wrapper -->
 
-  <?php include 'layouts/js.php';?>
-  <script>
-    $('#id_kode').change(function() {
-      let kode = $(this).val();
-      if (kode !== '') {
-        $.ajax({
-          url: '<?= base_url("surat/cek_nomor_surat"); ?>', 
-          method: 'POST',
-          data: { kode_surat: kode },
-          dataType: 'json',
-          success: function(res) {
-            $('#no_surat').val(res.nomor_surat);
-          }
+
+  <?php include 'layouts/footer.php';?>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<?php include 'layouts/js.php';?>
+<script>
+  $('#cek_kode').change(function() {
+    let kode = $(this).val();
+    if (kode !== '') {
+      $.ajax({
+        url: '<?= base_url("surat/cek_nomor_surat"); ?>', 
+        method: 'POST',
+        data: { id_kode: kode },
+        dataType: 'json',
+        success: function(res) {
+          $('#no_surat').val(res.nomor_surat);
+        }
+      });
+    } else {
+      $('#no_surat').val('');
+    }
+  });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+<script>
+  document.getElementById('lampiran').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const output = document.getElementById('jumlah_halaman');
+
+    if (file && file.type === 'application/pdf') {
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const typedarray = new Uint8Array(event.target.result);
+
+        pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+          output.textContent = `Jumlah halaman: ${pdf.numPages}`;
+        }).catch(function(err) {
+          output.textContent = 'Gagal membaca file PDF';
+          console.error(err);
         });
-      } else {
-        $('#no_surat').val('');
-      }
-    });
+      };
 
-  </script>
+      reader.readAsArrayBuffer(file);
+    } else {
+      output.textContent = 'File bukan PDF';
+    }
+  });
+</script>
 </body>
 </html>

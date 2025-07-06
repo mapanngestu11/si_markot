@@ -42,9 +42,6 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
-                  <a href="<?= site_url('surat/create_surat_disposisi') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Surat Disposisi</a>
-                  <br>
-                  <br>
 
                   <table id="example1" class="table table-bordered table-striped" style="width: 100%">
                     <thead>
@@ -53,7 +50,8 @@
                         <th>Nomor Surat</th>
                         <th>Tanggal Agenda</th>
                         <th>Informasi</th>
-                        <th>Ditersukan Kepada</th>
+                        <th>Diteruskan Kepada</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -64,138 +62,161 @@
 
                         $no++;
                         $id_disposisi            = $row['id_disposisi'];
-                        $id_surat_masuk           = $row['id_surat_masuk'];
+                        $id_surat_masuk          = $row['id_surat_masuk'];
+                        $no_surat           = $row['no_surat'];
                         $tgl_agenda                = $row['tgl_agenda'];
                         $informasi                = $row['informasi'];
+                        $status = $row['status'];
                         $diteruskan = $row['diteruskan'];
+                        $nama = $row['nama'];
+
+                        list($th, $bln, $tgl_hari) = explode('-', $tgl_agenda);
+                        $bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
                         ?>
                         <tr>
                           <td style="width: 5%"><?php echo $no;?></td>
-                          <td><?php echo $id_surat_masuk;?></td>
-                          <td><?php echo $tgl_agenda;?></td>
+                          <td><?php echo $no_surat;?></td>
+                          <td><?php echo $tgl_hari . ' ' . $bulan[(int)$bln] . ' ' . $th;?></td>
                           <td><?php echo $informasi;?></td>
-                          <td><?php echo $diteruskan;?></td>
+                          <td><?php echo $nama;?></td>
                           <td>
-                           <a href="<?= site_url('surat/update_surat_disposisi/' . $id_disposisi); ?>" class="btn btn-warning" style="color: white"> Edit </a>  
-                           <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_disposisi;?>"> Hapus</button> 
-                         </td>
-                       </tr>
+                            <?php if ($status == 'Pending') { ?>
+                              <span class="badge badge-warning" style="color: white;">Belum Verifikasi</span>
+                            <?php }else{?>
+                              <span class="badge badge-success">Sudah</span>
+                            <?php } ?>
+                          </td>
+                          <td>
+                            <?php if ($status == 'Pending') { ?>
+                              <!-- tidak ada tombol -->
+                            <?php }else{ ?>
+                              <button class="btn btn-primary">Cetak</button>
+                            <?php } ?>
+                            <?php if ($hak_akses == '2' || $hak_akses == '1') { ?>
+                              <a href="<?= site_url('surat/update_surat_disposisi/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white"> Edit </a> 
+                              <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_disposisi;?>"> Hapus</button> 
+                            <?php }else{ ?>
+                              <a href="<?= site_url('surat/view_surat_disposisi/' . $id_disposisi); ?>" class="btn btn-primary">Lihat Surat</a>
+                            <?php } ?>
+                          </td>
+                        </tr>
 
-                     <?php endforeach; ?>
-                   </tfoot>
-                 </table>
-               </div>
-               <!-- /.card-body -->
-             </div>
-             <!-- /.card -->
-           </div>
-           <!-- /.col -->
-         </div>
-         <!-- /.row -->
-       </div>
-       <!-- /.container-fluid -->
-     </section>
-     <!-- /.content -->
-
-
-     <!-- /.modal -->
-     <?php
-     $no = 0;
-     foreach ($disposisi->result_array() as $row) :
-
-      $no++;
-      $id_disposisi           = $row['id_disposisi'];
-
-      ?>
-      <!-- awal modal -->
-      <div class="modal fade" id="modal-hapus<?php echo $id_disposisi;?>">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Hapus Data Surat</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                      <?php endforeach; ?>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
             </div>
-            <div class="modal-body">
-              <form action="<?php echo base_url('user/delete') ?>" method="POST">
-                <div class="form-group">
-                  <p>Apakah anda yakin ingin menghapus, <strong><?php echo $id_disposisi;?></strong> ? </p>
-                  <input type="hidden" name="id_disposisi" value="<?php echo $id_disposisi;?>">
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+
+
+      <!-- /.modal -->
+      <?php
+      $no = 0;
+      foreach ($disposisi->result_array() as $row) :
+
+        $no++;
+        $id_disposisi           = $row['id_disposisi'];
+
+        ?>
+        <!-- awal modal -->
+        <div class="modal fade" id="modal-hapus<?php echo $id_disposisi;?>">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Hapus Data Surat</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="<?php echo base_url('user/delete') ?>" method="POST">
+                  <div class="form-group">
+                    <p>Apakah anda yakin ingin menghapus, <strong><?php echo $id_disposisi;?></strong> ? </p>
+                    <input type="hidden" name="id_disposisi" value="<?php echo $id_disposisi;?>">
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
               </div>
-              <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </form>
-          <!-- /.modal-content -->
+            </form>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
-      </div>
 
-    <?php endforeach;?>
+      <?php endforeach;?>
 
-    <style type="text/css">
-      .photo{
-        width: 300px;
-        height: 150px;
-        border: 2px solid #000;
-      }
-    </style>
-    <?php
-    $no = 0;
-    foreach ($disposisi->result_array() as $row) :
+      <style type="text/css">
+        .photo{
+          width: 300px;
+          height: 150px;
+          border: 2px solid #000;
+        }
+      </style>
+      <?php
+      $no = 0;
+      foreach ($disposisi->result_array() as $row) :
 
-      $no++;
-      $id_disposisi           = $row['id_disposisi'];
+        $no++;
+        $id_disposisi           = $row['id_disposisi'];
 
-      ?>
-      <!-- awal modal -->
-      <div class="modal fade" id="modal-edit<?php echo $id_disposisi;?>">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit Data User</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="<?php echo base_url('user/update') ?>" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
+        ?>
+        <!-- awal modal -->
+        <div class="modal fade" id="modal-edit<?php echo $id_disposisi;?>">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Edit Data User</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="<?php echo base_url('user/update') ?>" method="POST" enctype="multipart/form-data">
+                  <div class="form-group">
 
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
               </div>
-              <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </form>
-          <!-- /.modal-content -->
+            </form>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
-      </div>
 
-    <?php endforeach;?>
+      <?php endforeach;?>
 
 
 
 
+    </div>
+
+    <?php include 'layouts/footer.php';?>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
   </div>
+  <!-- ./wrapper -->
 
-  <?php include 'layouts/footer.php';?>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
-
-<?php include 'layouts/js.php';?>
+  <?php include 'layouts/js.php';?>
 </body>
 </html>

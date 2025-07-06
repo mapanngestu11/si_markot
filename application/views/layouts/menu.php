@@ -167,7 +167,7 @@ if ($hak_akses == '1') { ?>
 </li>
 </ul>
 </nav>
-<?php }else{ ?>
+<?php }elseif($hak_akses == '3'){ ?>
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
      <li class="nav-item menu-open">

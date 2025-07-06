@@ -12,9 +12,11 @@ class Kode  extends CI_Controller
         $this->load->library('upload');
         $this->load->model('M_divisi');
 
-        // $this->load->model('M_tagihan');
-        // $this->load->model('M_pengajuan');
-        // $this->load->model('M_instansi');
+        if($this->session->userdata('masuk') != TRUE){
+            $this->session->set_flashdata('msg','<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert"><span class="fa fa-close"></span></button>Login Terlebih Dahulu .</div>');
+            $url=base_url('Login');
+            redirect($url);
+        }
 
         
     }
@@ -29,35 +31,35 @@ class Kode  extends CI_Controller
 
     public function create()
     {
-       $kode_unor = $this->input->post('kode_unor');
-       $nama_divisi = $this->input->post('nama_divisi');
-       $keterangan = $this->input->post('keterangan');
+     $kode_unor = $this->input->post('kode_unor');
+     $nama_divisi = $this->input->post('nama_divisi');
+     $keterangan = $this->input->post('keterangan');
 
-       $cek = $this->M_divisi->cek_kode_unor($kode_unor);
-
-
-       if ($cek->num_rows() > 0) {
-          $this->session->set_flashdata('toast', json_encode([
-            'icon' => 'warning',  
-            'title' => ' Kode Divisi Tidak Boleh Sama !'
-        ]));
-          redirect('kode'); 
-      } else {
-        $data = array(
-            'kode_unor' => $kode_unor,
-            'nama_divisi' => $nama_divisi,
-            'keterangan' => $keterangan
-        );
-
-        $this->M_divisi->input_data($data, 'tbl_divisi');
+     $cek = $this->M_divisi->cek_kode_unor($kode_unor);
 
 
-        $this->session->set_flashdata('toast', json_encode([
-            'icon' => 'success',  
-            'title' => 'Data berhasil disimpan!'
-        ]));
-        redirect('kode'); 
-    }
+     if ($cek->num_rows() > 0) {
+      $this->session->set_flashdata('toast', json_encode([
+        'icon' => 'warning',  
+        'title' => ' Kode Divisi Tidak Boleh Sama !'
+    ]));
+      redirect('kode'); 
+  } else {
+    $data = array(
+        'kode_unor' => $kode_unor,
+        'nama_divisi' => $nama_divisi,
+        'keterangan' => $keterangan
+    );
+
+    $this->M_divisi->input_data($data, 'tbl_divisi');
+
+
+    $this->session->set_flashdata('toast', json_encode([
+        'icon' => 'success',  
+        'title' => 'Data berhasil disimpan!'
+    ]));
+    redirect('kode'); 
+}
 }
 
 public function update()

@@ -6,13 +6,13 @@ class M_login extends CI_Model{
 
 		$this->db->select('
 			a.nama,
-			a.nip,
+			a.nip_pegawai,
 			a.jabatan,
 			a.user_level,
 			b.id_pegawai,
 			b.kode_unor
 			');
-		$this->db->join('tbl_pegawai as b', 'a.nip = b.nip','left');
+		$this->db->join('tbl_pegawai as b', 'a.nip_pegawai = b.nip_pegawai','left');
 		$this->db->join('tbl_divisi as c' ,'b.kode_unor = c.kode_unor','left');
 		$this->db->where('username',$u);
 		$this->db->where('password',md5($p));

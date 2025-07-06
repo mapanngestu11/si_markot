@@ -35,14 +35,14 @@ class Login extends CI_Controller
 				$this->session->set_userdata('akses', '3');
 
 				$nama = $data_ses['nama'];
-				$nip  = $data_ses['nip'];
+				$nip  = $data_ses['nip_pegawai'];
 				$jabatan = $data_ses['jabatan'];
 				$user_level = $data_ses['user_level'];
 				$id_pegawai = $data_ses['id_pegawai'];
 				$kode_unor  = $data_ses['kode_unor'];
 
 				$this->session->set_userdata('nama', $nama);
-				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('nip_pegawai', $nip);
 				$this->session->set_userdata('jabatan', $jabatan);
 				$this->session->set_userdata('user_level', $user_level);
 				$this->session->set_userdata('id_pegawai', $id_pegawai);
@@ -53,14 +53,14 @@ class Login extends CI_Controller
 				$this->session->set_userdata('akses', '2');
 
 				$nama = $data_ses['nama'];
-				$nip  = $data_ses['nip'];
+				$nip  = $data_ses['nip_pegawai'];
 				$jabatan = $data_ses['jabatan'];
 				$user_level = $data_ses['user_level'];
 				$id_pegawai = $data_ses['id_pegawai'];
 				$kode_unor  = $data_ses['kode_unor'];
 
 				$this->session->set_userdata('nama', $nama);
-				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('nip_pegawai', $nip);
 				$this->session->set_userdata('jabatan', $jabatan);
 				$this->session->set_userdata('user_level', $user_level);
 				$this->session->set_userdata('id_pegawai', $id_pegawai);
@@ -71,14 +71,14 @@ class Login extends CI_Controller
 				$this->session->set_userdata('akses', '1');
 
 				$nama = $data_ses['nama'];
-				$nip  = $data_ses['nip'];
+				$nip  = $data_ses['nip_pegawai'];
 				$jabatan = $data_ses['jabatan'];
 				$user_level = $data_ses['user_level'];
 				$id_pegawai = $data_ses['id_pegawai'];
 				$kode_unor  = $data_ses['kode_unor'];
 
 				$this->session->set_userdata('nama', $nama);
-				$this->session->set_userdata('nip', $nip);
+				$this->session->set_userdata('nip_pegawai', $nip);
 				$this->session->set_userdata('jabatan', $jabatan);
 				$this->session->set_userdata('user_level', $user_level);
 				$this->session->set_userdata('id_pegawai', $id_pegawai);

@@ -113,11 +113,15 @@
                 <div class="row">
                   <div class="col-md-6">
                     <label>Kode Divisi</label>
-                    <input type="text" name="kode_unor" class="form-control" required="">
+                    <input type="text" name="kode_unor" class="form-control" required
+                    oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                    oninput="this.setCustomValidity('')">
                   </div>
                   <div class="col-md-6">
                     <label>Nama Divisi</label>
-                    <input type="text" name="nama_divisi" class="form-control" required="">
+                    <input type="text" name="nama_divisi" class="form-control" required
+                    oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                    oninput="this.setCustomValidity('')">
                   </div>
                 </div>
                 <div class="row mt-2">

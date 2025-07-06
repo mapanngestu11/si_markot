@@ -17,7 +17,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Buat Surat Masuk</h1>
+              <h1>Update Surat Masuk</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -44,8 +44,6 @@
                 <div class="form-group">
                   <form action="<?php echo base_url('surat/proses_update_surat_masuk') ?>" method="POST" enctype="multipart/form-data">
                     <?php foreach ($data_ms->result_array() as $ms):
-
-
                       ?>
                       <div class="row">
                         <div class="col-md-6">
@@ -64,8 +62,10 @@
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <label>Nomor Agenda</label>
-                        <input type="text" name="no_agenda" class="form-control" value="<?php echo $ms['no_agenda'];?>" readonly>
+                        <div class="col-md-12">
+                          <label>Nomor Agenda</label>
+                          <input type="text" name="no_agenda" class="form-control" value="<?php echo $ms['no_agenda'];?>" readonly>
+                        </div>              
                       </div>
                       <div class="row mt-2">
                         <div class="col-md-12">
@@ -106,39 +106,40 @@
                           <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Penerima" style="width: 100%;" required="">
                             <option> Pilih </option>
                             <?php foreach ($pegawai->result_array() as $pg): ?>
-                              <option value="<?php echo $pg['nip']; ?>">
-                                <?php echo $pg['nama']; ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
-                        </div>
-                      </div>
-                    <?php endforeach;?>
-                  </div>
-                  <hr>
-                  <button type="submit" class="btn btn-primary">Update Surat</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.col-->
-        </div>
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+                              <option value="<?php echo $pg['nip_pegawai']; ?>">
+                               <?= $pg['nama']; ?> | [PIMPINAN]
+                             </option>
+                           <?php endforeach; ?>
+                         </select>
+                       </div>
+                     </div>
+                   <?php endforeach;?>
+                 </div>
+                 <hr>
+                 <a href="<?php echo base_url('surat/masuk') ?>" class="btn btn-secondary">Kembali</a>
+                 <button type="submit" class="btn btn-primary">Update Surat</button>
+               </div>
+             </form>
+           </div>
+         </div>
+         <!-- /.col-->
+       </div>
+     </section>
+     <!-- /.content -->
+   </div>
+   <!-- /.content-wrapper -->
 
-    <?php include 'layouts/footer.php';?>
+   <?php include 'layouts/footer.php';?>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+   <!-- Control Sidebar -->
+   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
-  <?php include 'layouts/js.php';?>
+<?php include 'layouts/js.php';?>
 
 </body>
 </html>

@@ -60,10 +60,12 @@
                       </div>
                     </div>
                     <div class="row mt-2">
-                      <label>Nomor Agenda</label>
-                      <input type="text" name="no_agenda" class="form-control" value="<?php echo $no_agenda;?>" readonly>
-                    </div>
-                    <div class="row mt-2">
+                      <div class="col-md-12">
+                       <label>Nomor Agenda</label>
+                       <input type="text" name="no_agenda" class="form-control" value="<?php echo $no_agenda;?>" readonly>
+                     </div>
+                   </div>
+                   <div class="row mt-2">
                      <div class="col-md-12">
                        <label>Perihal</label>
                        <input type="text" name="perihal" class="form-control" required="" placeholder="Hal.">
@@ -88,16 +90,17 @@
                 <div class="row mt-2">
                   <div class="col-md-12"> 
                     <label>File Surat Masuk</label>
-                    <input type="file" name="file_surat_masuk" class="form-control">
+                    <input type="file" name="file_surat_masuk" id="file_surat_masuk" class="form-control" accept="application/pdf">
+                    <p id="jumlah_halaman"></p>
                   </div>
                 </div>
                 <div class="row mt-3">
                  <div class="col-md-8">
                    <label>Ditujukan Oleh :</label>
-                   <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pegawai" style="width: 100%;">
+                   <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pimpinan" style="width: 100%;">
                     <?php foreach ($pegawai->result_array() as $pg): ?>
                       <option value="<?= $pg['nip']; ?>">
-                        <?= $pg['nama']; ?> | [<?= strtoupper($pg['nama_divisi']); ?>]
+                        <?= $pg['nama']; ?> | [PIMPINAN]
                       </option>
                     <?php endforeach; ?>
                   </select>
@@ -105,6 +108,7 @@
               </div>
             </div>
             <hr>
+            <a href="<?php echo base_url('surat/masuk') ?>" class="btn btn-secondary">Kembali</a>
             <button type="submit" class="btn btn-primary">Buat Surat</button>
           </div>
         </form>
@@ -128,6 +132,33 @@
 <!-- ./wrapper -->
 
 <?php include 'layouts/js.php';?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+<script>
+  document.getElementById('file_surat_masuk').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const output = document.getElementById('jumlah_halaman');
+
+    if (file && file.type === 'application/pdf') {
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const typedarray = new Uint8Array(event.target.result);
+
+        pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+          output.textContent = `Jumlah halaman: ${pdf.numPages}`;
+        }).catch(function(err) {
+          output.textContent = 'Gagal membaca file PDF';
+          console.error(err);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    } else {
+      output.textContent = 'File bukan PDF';
+    }
+  });
+</script>
 
 </body>
 </html>

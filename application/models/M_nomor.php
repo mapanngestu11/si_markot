@@ -82,5 +82,10 @@ class M_nomor extends CI_Model
         $romawi = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
         return $romawi[(int)$month - 1];
     }
+    function tampil_databyId($id_kode)
+    {
+        $this->db->where('id_kode',$id_kode);
+        return $this->db->get('tbl_kode_surat');
+    }
 
 }

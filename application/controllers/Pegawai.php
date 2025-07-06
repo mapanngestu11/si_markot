@@ -14,10 +14,11 @@ class Pegawai  extends CI_Controller
     $this->load->model('M_pegawai');
     $this->load->model('M_divisi');
 
-        // $this->load->model('M_tagihan');
-        // $this->load->model('M_pengajuan');
-        // $this->load->model('M_instansi');
-
+    if($this->session->userdata('masuk') != TRUE){
+      $this->session->set_flashdata('msg','<div class="alert alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert"><span class="fa fa-close"></span></button>Login Terlebih Dahulu .</div>');
+      $url=base_url('Login');
+      redirect($url);
+    }
 
   }
 

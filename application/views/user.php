@@ -126,28 +126,38 @@
              <div class="row mt-2">
               <div class="col-md-12">
                 <label>NIP</label>
-                <input type="text" name="nip" class="form-control">
+                <input type="text" name="nip" class="form-control" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-md-6">
                 <label>Nama*</label>
-                <input type="text" name="nama" class="form-control" required="">
+                <input type="text" name="nama" class="form-control" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
               </div>
               <div class="col-md-6">
                 <label>Email</label>
-                <input type="text" name="email" class="form-control">
+                <input type="text" name="email" class="form-control" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-md-6">
                 <label>Jabatan</label>
-                <input type="text" name="jabatan" class="form-control">
+                <input type="text" name="jabatan" class="form-control" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
               </div>
               <div class="col-md-6">
                 <label>Tanda Tangan</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" name="ttd" id="exampleInputFile" accept="image/*">
+                  <input type="file" class="custom-file-input" name="ttd" id="exampleInputFile" accept="image/*" required
+                  oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                  oninput="this.setCustomValidity('')">
                   <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                 </div>
               </div>
@@ -155,33 +165,39 @@
             <div class="row mt-2">
               <div class="col-md-4">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control" required="">
+                <input type="text" name="username" class="form-control" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
               </div>
               <div class="col-md-4">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control" required="" minlength="8">
+                <input type="password" name="password" class="form-control" minlength="8" required
+                oninvalid="this.setCustomValidity('Password minimal 8 Karakter !')"
+                oninput="this.setCustomValidity('')">
               </div>
               <div class="col-md-4">
                 <label>Hak Akses</label>
-                <select class="form-control" class="form-control" name="user_level" required="">
-                  <option value=""> Pilih </option>
-                  <option value="1"> Pimpinan </option>
-                  <option value="2"> Admin (Operator) </option>
-                  <option value="3"> Admin Divisi </option>
-                </select>
-              </div>
+                <select class="form-control" class="form-control" name="user_level" required
+                oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+                oninput="this.setCustomValidity('')">
+                <option value=""> Pilih </option>
+                <option value="1"> Pimpinan </option>
+                <option value="2"> Admin (Operator) </option>
+                <option value="3"> Admin Divisi </option>
+              </select>
             </div>
           </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
         </div>
-      </form>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </form>
+    <!-- /.modal-content -->
   </div>
+  <!-- /.modal-dialog -->
+</div>
 </div>
 
 <!-- /.modal -->
@@ -304,7 +320,9 @@ foreach ($users->result_array() as $row) :
             </div>
             <div class="col-md-4">
               <label>Password</label>
-              <input type="password" name="password" class="form-control" required="" minlength="8">
+              <input type="password" name="password" class="form-control" required
+              oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+              oninput="this.setCustomValidity('')" minlength="8">
             </div>
             <div class="col-md-4">
               <label>Hak Akses</label>

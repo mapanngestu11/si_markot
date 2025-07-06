@@ -44,14 +44,14 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>0</h3>
+                  <h3><?php echo $sm[0]->jumlah;?></h3>
 
                   <p>Data Surat Masuk</p>
                 </div>
                 <div class="icon">
                  <i class="ion ion-stats-bars"></i>
                </div>
-               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+               <a href="<?= site_url('surat/masuk') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
              </div>
            </div>
            <!-- ./col -->
@@ -59,13 +59,13 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?php echo $sk[0]->jumlah;?></h3>
                 <p>Data Surat Keluar</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= site_url('surat/keluar') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -73,14 +73,14 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3 style="color: white">0</h3>
+                <h3 style="color: white"><?php echo $dp[0]->jumlah;?></h3>
 
                 <p style="color: white">Data Surat Disposisi</p>
               </div>
               <div class="icon">
                <i class="ion ion-stats-bars"></i>
              </div>
-             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+             <a href="<?= site_url('surat/disposisi') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
            </div>
          </div>
          <!-- ./col -->
@@ -88,7 +88,7 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65</h3>
+              <h3><?php echo $du[0]->jumlah;?></h3>
 
               <p>Jumlah User</p>
             </div>

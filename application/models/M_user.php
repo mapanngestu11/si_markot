@@ -31,4 +31,10 @@ class M_user extends CI_Model
         $this->db->where($where);
         $this->db->update($table, $data);
     }
+    function jumlah_data()
+    {
+        $this->db->select('count(tbl_user.id_user) as jumlah');
+        $hsl = $this->db->get('tbl_user');
+        return $hsl;
+    }
 }
