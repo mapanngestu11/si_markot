@@ -51,7 +51,45 @@ if ($hak_akses == '1') { ?>
  </li>
 </ul>
 </li>
-
+<li class="nav-header"><hr></li>
+<?php
+$segment1 = $this->uri->segment(1);
+$segment2 = $this->uri->segment(2);
+$segment3 = $this->uri->segment(3);
+$isLaporan = ($segment1 == 'laporan');
+?>
+<li class="nav-item <?= $isLaporan ? 'menu-open' : '' ?>">
+  <a href="#" class="nav-link <?= $isLaporan ? 'active' : '' ?>">
+    <i class="nav-icon fas fa-folder"></i>
+    <p>
+      Laporan
+      <i class="right fas fa-angle-left"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="<?= site_url('laporan/masuk') ?>"
+       class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'masuk') ? 'active' : '' ?>">
+       <i class="far fa-circle nav-icon"></i>
+       <p>Laporan Surat Masuk</p>
+     </a>
+   </li>
+   <li class="nav-item">
+    <a href="<?= site_url('laporan/keluar') ?>"
+     class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'keluar') ? 'active' : '' ?>">
+     <i class="far fa-circle nav-icon"></i>
+     <p>Laporan Surat Keluar</p>
+   </a>
+ </li>
+ <li class="nav-item">
+  <a href="<?= site_url('laporan/disposisi') ?>"
+   class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'disposisi') ? 'active' : '' ?>">
+   <i class="far fa-circle nav-icon"></i>
+   <p>Laporan Surat Disposisi</p>
+ </a>
+</li>
+</ul>
+</li>
 <li class="nav-header"><hr></li>
 <li class="nav-item">
  <a href="<?= site_url('pegawai') ?>" class="nav-link <?= ($this->uri->segment(1) == 'pegawai') ? 'active' : '' ?>">
@@ -121,6 +159,46 @@ if ($hak_akses == '1') { ?>
      </a>
    </li>
  </ul>
+</li>
+</li>
+<li class="nav-header"><hr></li>
+<?php
+$segment1 = $this->uri->segment(1);
+$segment2 = $this->uri->segment(2);
+$segment3 = $this->uri->segment(3);
+$isLaporan = ($segment1 == 'laporan');
+?>
+<li class="nav-item <?= $isLaporan ? 'menu-open' : '' ?>">
+  <a href="#" class="nav-link <?= $isLaporan ? 'active' : '' ?>">
+    <i class="nav-icon fas fa-folder"></i>
+    <p>
+      Laporan
+      <i class="right fas fa-angle-left"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="<?= site_url('laporan/masuk') ?>"
+       class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'masuk') ? 'active' : '' ?>">
+       <i class="far fa-circle nav-icon"></i>
+       <p>Laporan Surat Masuk</p>
+     </a>
+   </li>
+   <li class="nav-item">
+    <a href="<?= site_url('laporan/keluar') ?>"
+     class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'keluar') ? 'active' : '' ?>">
+     <i class="far fa-circle nav-icon"></i>
+     <p>Laporan Surat Keluar</p>
+   </a>
+ </li>
+ <li class="nav-item">
+  <a href="<?= site_url('laporan/disposisi') ?>"
+   class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'disposisi') ? 'active' : '' ?>">
+   <i class="far fa-circle nav-icon"></i>
+   <p>Laporan Surat Disposisi</p>
+ </a>
+</li>
+</ul>
 </li>
 
 <li class="nav-header"><hr></li>

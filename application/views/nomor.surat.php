@@ -62,7 +62,7 @@
 
                         $no++;
                         $id_kode           = $row['id_kode'];
-                        $no_surat           = $row['no_surat'];
+                        $no_surat           = $row['kode_surat'];
                         $judul                = $row['judul'];
 
                         ?>

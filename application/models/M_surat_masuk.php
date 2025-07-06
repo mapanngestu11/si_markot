@@ -134,10 +134,19 @@ class M_surat_masuk extends CI_Model
     }
     public function cek_surat($id_surat_masuk)
     {
-     $this->db->select('*');
-     $this->db->where('id_surat_masuk',$id_surat_masuk);
-     $hsl = $this->db->get('tbl_surat_masuk');
-     return $hsl;
- }
+       $this->db->select('*');
+       $this->db->where('id_surat_masuk',$id_surat_masuk);
+       $hsl = $this->db->get('tbl_surat_masuk');
+       return $hsl;
+   }
+
+   public function cek_laporan($tgl_awal,$tgl_akhir)
+   {
+       $this->db->where('tgl_terima >=', $tgl_awal);
+       $this->db->where('tgl_terima <=', $tgl_akhir);
+       $this->db->order_by('id_surat_masuk', 'ASC');
+       $hsl = $this->db->get('tbl_surat_masuk');
+       return $hsl;
+   }
 
 }
