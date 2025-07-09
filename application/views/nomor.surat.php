@@ -50,7 +50,7 @@
                     <thead>
                       <tr>
                         <th>No.</th>
-                        <th>Nomor Surat</th>
+                        <th>Kode Surat</th>
                         <th>Keterangan</th>
                         <th>Action</th>
                       </tr>

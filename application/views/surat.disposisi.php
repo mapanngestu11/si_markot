@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+f<!DOCTYPE html>
 <html lang="en">
 <?php include 'layouts/head.php';?>
 <body class="hold-transition sidebar-mini">
@@ -90,7 +90,7 @@
                           <td>
                             <?php if ($hak_akses == '2' || $hak_akses == '3'): ?>
                               <?php if ($status == 'Approve'): ?>
-                                <button class="btn btn-success"><i class="nav-icon fas fa-print"></i> Cetak</button>
+                                <a href="<?= site_url('surat/proses_cetak_disposisi/' . $id_disposisi); ?>" target="_blank" class="btn btn-success"><i class="nav-icon fas fa-print"></i> Cetak</a>
                                 <a href="<?= site_url('surat/view_surat_disposisi/' . $id_surat_masuk); ?>" class="btn btn-primary">
                                   <i class="nav-icon fas fa-eye"></i> Lihat Surat
                                 </a>
@@ -110,9 +110,7 @@
                                       <a href="<?= site_url('surat/update_surat_disposisi/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white">
                                         <i class="nav-icon fas fa-pen"></i> Edit
                                       </a>
-                                      <a href="<?= site_url('surat/view_surat_disposisi/' . $id_surat_masuk); ?>" class="btn btn-danger">
-                                        <i class="nav-icon fas fa-trash"></i> Hapus
-                                      </a>
+                                      <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_disposisi;?>"> <i class="nav-icon fas fa-trash"></i> Hapus</button>
                                     <?php endif; ?>
 
                                   <?php endif; ?>
@@ -144,6 +142,7 @@
 
               $no++;
               $id_disposisi           = $row['id_disposisi'];
+              $no_surat               = $row['no_surat'];
 
               ?>
               <!-- awal modal -->
@@ -157,9 +156,9 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="<?php echo base_url('user/delete') ?>" method="POST">
+                      <form action="<?php echo base_url('surat/proses_delete_disposisi') ?>" method="POST">
                         <div class="form-group">
-                          <p>Apakah anda yakin ingin menghapus, <strong><?php echo $id_disposisi;?></strong> ? </p>
+                          <p>Apakah anda yakin ingin menghapus, <strong><?php echo $no_surat;?></strong> ? </p>
                           <input type="hidden" name="id_disposisi" value="<?php echo $id_disposisi;?>">
                         </div>
                       </div>

@@ -99,7 +99,7 @@
                       <div class="row mt-2">
                         <div class="col-md-12">
                           <label>Download File Surat</label><br>
-                          <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?>e87ce5b71d2a67566fae94f2c24dead1.pdf" width="100%" height="400"></embed>
+                          <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?><?= $ms['file_surat_masuk'];?>" width="100%" height="400"></embed>
                         </div>
                       </div>
 

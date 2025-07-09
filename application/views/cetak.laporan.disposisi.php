@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Laporan Surat Masuk</title>
+  <title>Laporan Surat Disposisi</title>
   <style>
     body {
       font-family: "Times New Roman", Times, serif;
@@ -72,7 +72,7 @@
   </table>
 
   <!-- Judul Laporan -->
-  <h4 class="text-center" style="text-decoration: underline;">LAPORAN SURAT MASUK</h4>
+  <h4 class="text-center" style="text-decoration: underline;">LAPORAN SURAT DISPOSISI</h4>
   <p class="text-center">Periode: <?= $this->input->post('tgl_awal'); ?> s/d <?= $this->input->post('tgl_akhir'); ?></p>
 
   <!-- Tabel Data -->
@@ -80,13 +80,11 @@
     <thead>
       <tr>
         <th>No</th>
-        <th>Tanggal Terima</th>
-        <th>Tanggal Surat</th>
-        <th>Sifat Surat</th>
-        <th>Nomor Agenda</th>
+        <th>Tanggal Agenda</th>
         <th>Nomor Surat</th>
-        <th>Perihal</th>
-        <th>Asal Surat</th>
+        <th>Informasi</th>
+        <th>Diteruskan</th>
+        <th>Divisi</th>
       </tr>
     </thead>
     <tbody>
@@ -94,13 +92,11 @@
       <?php $no = 1; foreach ($laporan->result_array() as $row): ?>
       <tr>
         <td><?= $no++; ?></td>
-        <td><?= date('d-m-Y', strtotime($row['tgl_terima'])); ?></td>
-        <td><?= date('d-m-Y', strtotime($row['tgl_surat_masuk'])); ?></td>
-        <td><?= $row['sifat_surat']; ?></td>
-        <td><?= $row['no_agenda']; ?></td>
+        <td><?= date('d-m-Y', strtotime($row['tgl_agenda'])); ?></td>
         <td><?= $row['no_surat']; ?></td>
-        <td><?= $row['perihal']; ?></td>
-        <td><?= $row['asal_surat']; ?></td>
+        <td><?= $row['informasi']; ?></td>
+        <td><?= $row['nama']; ?></td>
+        <td><?= $row['nama_divisi']; ?></td>
       </tr>
     <?php endforeach; ?>
     <?php else: ?>

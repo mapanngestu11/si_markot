@@ -179,21 +179,21 @@ $isLaporan = ($segment1 == 'laporan');
   <ul class="nav nav-treeview">
     <li class="nav-item">
       <a href="<?= site_url('laporan/masuk') ?>"
-       class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'masuk') ? 'active' : '' ?>">
+       class="nav-link <?= ($segment1 == 'laporan' && $segment2 == 'masuk') ? 'active' : '' ?>">
        <i class="far fa-circle nav-icon"></i>
        <p>Laporan Surat Masuk</p>
      </a>
    </li>
    <li class="nav-item">
     <a href="<?= site_url('laporan/keluar') ?>"
-     class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'keluar') ? 'active' : '' ?>">
+     class="nav-link <?= ($segment1 == 'laporan' && $segment2 == 'keluar') ? 'active' : '' ?>">
      <i class="far fa-circle nav-icon"></i>
      <p>Laporan Surat Keluar</p>
    </a>
  </li>
  <li class="nav-item">
   <a href="<?= site_url('laporan/disposisi') ?>"
-   class="nav-link <?= ($segment1 == 'surat' && $segment2 == 'disposisi') ? 'active' : '' ?>">
+   class="nav-link <?= ($segment1 == 'laporan' && $segment2 == 'disposisi') ? 'active' : '' ?>">
    <i class="far fa-circle nav-icon"></i>
    <p>Laporan Surat Disposisi</p>
  </a>

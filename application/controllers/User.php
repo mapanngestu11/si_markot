@@ -31,13 +31,13 @@ class User  extends CI_Controller
     public function create()
     {
 
-       $config['upload_path'] = './assets/upload/'; 
-       $config['allowed_types'] = 'jpg|png|jpeg';
-       $config['encrypt_name'] = TRUE; 
-       $config['max_size']  = 10000;
+     $config['upload_path'] = './assets/upload/'; 
+     $config['allowed_types'] = 'jpg|png|jpeg';
+     $config['encrypt_name'] = TRUE; 
+     $config['max_size']  = 10000;
 
-       $this->upload->initialize($config);
-       if (!empty($_FILES['ttd']['name'])) {
+     $this->upload->initialize($config);
+     if (!empty($_FILES['ttd']['name'])) {
         if ($this->upload->do_upload('ttd')) {
             $gbr = $this->upload->data();
 
@@ -55,7 +55,7 @@ class User  extends CI_Controller
             $gambar = $gbr['file_name'];
             $nama = $this->input->post('nama');
             $email = $this->input->post('email');
-            $nip = $this->input->post('nip');
+            $nip_pegawai = $this->input->post('nip_pegawai');
             $jabatan = $this->input->post('jabatan');
             $user_level = $this->input->post('user_level');
             $username = $this->input->post('username');
@@ -66,7 +66,7 @@ class User  extends CI_Controller
 
                 'nama' => $nama,
                 'email' => $email,
-                'nip' => $nip,
+                'nip_pegawai' => $nip_pegawai,
                 'jabatan' => $jabatan,
                 'user_level' => $user_level,
                 'username' => $username,
@@ -82,123 +82,101 @@ class User  extends CI_Controller
             ]));
             redirect('user'); 
         } else {
-           $this->session->set_flashdata('toast', json_encode([
+         $this->session->set_flashdata('toast', json_encode([
             'icon' => 'warning',  
             'title' => 'Ukuran atau format file tidak sesuai !'
         ]));
-           redirect('user'); 
-       }
-   } else {
+         redirect('user'); 
+     }
+ } else {
 
-       $this->session->set_flashdata('toast', json_encode([
+     $this->session->set_flashdata('toast', json_encode([
         'icon' => 'danger',  
         'title' => 'Data Gagal Tersimpan!'
     ]));
-       redirect('user'); 
-   }
+     redirect('user'); 
+ }
 }
 
 
 public function update()
 {
+    $this->load->library('upload');
 
-   $config['upload_path'] = './assets/upload/'; 
-   $config['allowed_types'] = 'jpg|png|jpeg';
-   $config['encrypt_name'] = TRUE; 
-   $config['max_size']  = 10000;
-
-   $this->upload->initialize($config);
-   if (!empty($_FILES['ttd']['name'])) {
-    if ($this->upload->do_upload('ttd')) {
-        $gbr = $this->upload->data();
-
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = './assets/upload/' . $gbr['file_name'];
-        $config['create_thumb'] = FALSE;
-        $config['maintain_ratio'] = FALSE;
-        $config['quality'] = '100%';
-        $config['width'] = 500;
-        $config['height'] = 450;
-        $config['new_image'] = './assets/upload/' . $gbr['file_name'];
-        $this->load->library('image_lib', $config);
-        $this->image_lib->resize();
-
-        $gambar = $gbr['file_name'];
-        $nama = $this->input->post('nama');
-        $email = $this->input->post('email');
-        $nip = $this->input->post('nip');
-        $jabatan = $this->input->post('jabatan');
-        $user_level = $this->input->post('user_level');
-        $username = $this->input->post('username');
-        $password = md5($this->input->post('password'));
-        $id_user = $this->input->post('id_user');
-
-        $data = array(
-
-            'nama' => $nama,
-            'email' => $email,
-            'nip' => $nip,
-            'jabatan' => $jabatan,
-            'user_level' => $user_level,
-            'username' => $username,
-            'password' => $password,
-            'ttd' => $gambar
-
-        );
-
-        $where = array(
-            'id_user' => $id_user
-        );
-
-        $this->M_user->update_data($where, $data, 'tbl_user');
-        $this->session->set_flashdata('toast', json_encode([
-            'icon' => 'success',  
-            'title' => 'Data berhasil disimpan!'
-        ]));
-        redirect('user'); 
-    } else {
-       $this->session->set_flashdata('toast', json_encode([
-        'icon' => 'warning',  
-        'title' => 'Ukuran atau format file tidak sesuai !'
-    ]));
-       redirect('user'); 
-   }
-
-
-}else{
-    $nama = $this->input->post('nama');
-    $email = $this->input->post('email');
-    $nip = $this->input->post('nip');
-    $jabatan = $this->input->post('jabatan');
-    $user_level = $this->input->post('user_level');
-    $username = $this->input->post('username');
-    $password = md5($this->input->post('password'));
     $id_user = $this->input->post('id_user');
+    $nip_baru = $this->input->post('nip_pegawai');
 
-    $data = array(
+    $user_lama = $this->db->get_where('tbl_user', ['id_user' => $id_user])->row_array();
+    $nip_lama = $user_lama['nip_pegawai'];
 
-        'nama' => $nama,
-        'email' => $email,
-        'nip' => $nip,
-        'jabatan' => $jabatan,
-        'user_level' => $user_level,
-        'username' => $username,
-        'password' => $password
+    if ($nip_baru != $nip_lama) {
+        $cek_nip = $this->db->where('nip_pegawai', $nip_baru)
+        ->where('id_user !=', $id_user)
+        ->get('tbl_user');
 
-    );
+        if ($cek_nip->num_rows() > 0) {
+            $this->session->set_flashdata('toast', json_encode([
+                'icon' => 'warning',
+                'title' => 'NIP sudah digunakan oleh pengguna lain!'
+            ]));
+            redirect('user');
+            return;
+        }
+    }
 
-    $where = array(
-        'id_user' => $id_user
-    );
+    $data = [
+        'nama'        => $this->input->post('nama'),
+        'email'       => $this->input->post('email'),
+        'nip_pegawai' => $nip_baru,
+        'jabatan'     => $this->input->post('jabatan'),
+        'user_level'  => $this->input->post('user_level'),
+        'username'    => $this->input->post('username'),
+        'password'    => md5($this->input->post('password')),
+    ];
 
-    $this->M_user->update_data($where, $data, 'tbl_user');
+    if (!empty($_FILES['ttd']['name'])) {
+        $config['upload_path']   = './assets/upload/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $config['encrypt_name']  = TRUE;
+        $config['max_size']      = 10000;
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('ttd')) {
+            $gbr = $this->upload->data();
+
+            $this->load->library('image_lib');
+            $config_resize['image_library']  = 'gd2';
+            $config_resize['source_image']   = './assets/upload/' . $gbr['file_name'];
+            $config_resize['maintain_ratio'] = FALSE;
+            $config_resize['width']          = 500;
+            $config_resize['height']         = 450;
+            $config_resize['new_image']      = './assets/upload/' . $gbr['file_name'];
+
+            $this->image_lib->initialize($config_resize);
+            $this->image_lib->resize();
+
+            $data['ttd'] = $gbr['file_name'];
+        } else {
+            $this->session->set_flashdata('toast', json_encode([
+                'icon' => 'warning',
+                'title' => 'Ukuran atau format file tidak sesuai!'
+            ]));
+            redirect('user');
+            return;
+        }
+    }
+
+    $this->M_user->update_data(['id_user' => $id_user], $data, 'tbl_user');
+
     $this->session->set_flashdata('toast', json_encode([
-        'icon' => 'success',  
+        'icon' => 'success',
         'title' => 'Data berhasil disimpan!'
     ]));
-    redirect('user'); 
+
+    redirect('user');
 }
-}
+
 public function delete($id_user)
 {
     $id_user = $this->input->post('id_user');
@@ -206,6 +184,27 @@ public function delete($id_user)
     $this->session->set_flashdata('toast', json_encode([
         'icon' => 'success',  
         'title' => 'Data berhasil dihapus!'
+    ]));
+    redirect('user');
+}
+
+public function reset_password()
+{
+    $nip_pegawai = $this->input->post('nip_pegawai');
+    $password = md5($this->input->post('password'));
+
+    $data = array(
+        'password' => $password
+    ); 
+
+    $where = array(
+        'nip_pegawai' => $nip_pegawai
+    );
+
+    $this->M_user->reset_password($where,$data,'tbl_user');
+    $this->session->set_flashdata('toast', json_encode([
+        'icon' => 'success',  
+        'title' => 'Data berhasil direset password!'
     ]));
     redirect('user');
 }

@@ -46,13 +46,23 @@
                     <i class="fas fa-plus"></i> Tambah Data Pegawai
                   </button>
 
-                  <table id="example1" class="table table-bordered table-striped" style="width: 100%">
+                  <table id="example1" class="table table-bordered table-striped nowrap" style="width: 100%">
                     <thead>
                       <tr>
                         <th>No.</th>
                         <th>Nip</th>
                         <th>Nama</th>
                         <th>Jabatan</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Tempat Lahir</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Nomor Handphone</th>
+                        <th>Email</th>
+                        <th>Status Pegawai</th>
+                        <th>No SK</th>
+                        <th>TMK</th>
+                        <th>TBK</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -72,6 +82,16 @@
                           <td><?php echo $nip;?></td>
                           <td><?php echo $nama;?></td>
                           <td><?php echo $jabatan;?></td>
+                          <td><?= $row['jk'];?></td>
+                          <td><?= $row['alamat'];?></td>
+                          <td><?= $row['tempat_lahir'];?></td>
+                          <td><?= $row['tgl_lahir'];?></td>
+                          <td><?= $row['no_hp'];?></td>
+                          <td><?= $row['email'];?></td>
+                          <td><?= $row['status'];?></td>
+                          <td><?= $row['no_sk'];?></td>
+                          <td><?= $row['tmk'];?></td>
+                          <td><?= $row['tbk'];?></td>
                           <td>
                             <button class="btn btn-warning" data-toggle="modal" data-target="#modal-edit<?php echo $id_pegawai;?>" style="color: white;"> Edit </button> 
                             <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_pegawai;?>"> Hapus</button> 
@@ -116,7 +136,7 @@
                <div class="row mt-2">
                 <div class="col-md-6">
                   <label>NIP</label>
-                  <input type="text" name="nip" class="form-control" required
+                  <input type="text" name="nip_pegawai" class="form-control" required
                   oninvalid="this.setCustomValidity('Harap isi bagian ini')"
                   oninput="this.setCustomValidity('')">
                 </div>
@@ -354,7 +374,7 @@ foreach ($pegawai->result_array() as $row) :
              <div class="row mt-2">
               <div class="col-md-6">
                 <label>NIP</label>
-                <input type="text" name="nip" class="form-control" value="<?= set_value('nip', $nip); ?>">
+                <input type="text" name="nip_pegawai" class="form-control" value="<?= $nip;?>">
                 <input type="hidden" name="nip_lama" value="<?= $nip ?>">
                 <input type="hidden" name="id_pegawai" value="<?php echo $id_pegawai;?>">
               </div>
@@ -433,23 +453,35 @@ foreach ($pegawai->result_array() as $row) :
               <div class="col-md-4"> 
                 <label>Divisi</label>
                 <?php
-                if ($kode_unor == 'admin' || $kode_unor == 'pimpinan') { ?>
-                  <input type="text" class="form-control" value="<?php echo $kode_unor;?>" readonly>
-                <?php }else{ ?>
-                  <select class="form-control" name="kode_unor" required="">
-                    <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?> </option>
+                $selected_kode_unor = $kode_unor;
+                $selected_nama_divisi = '';
+                foreach ($divisi->result_array() as $row_divisi) {
+                  if ($row_divisi['kode_unor'] == $selected_kode_unor) {
+                    $selected_nama_divisi = $row_divisi['nama_divisi'];
+                    break;
+                  }
+                }
 
+                if ($selected_kode_unor == 'admin' || $selected_kode_unor == 'pimpinan') { ?>
+                  <input type="text" class="form-control" value="<?php echo $selected_kode_unor; ?>" readonly>
+                <?php } else { ?>
+                  <select class="form-control" name="kode_unor" required>
+                    <option value="<?php echo $selected_kode_unor; ?>" selected>
+                      <?php echo $selected_nama_divisi ?: 'Pilih Divisi'; ?>
+                    </option>
                     <option value="admin">admin operator</option>
                     <option value="pimpinan">pimpinan</option>
-                    <?php
-                    foreach ($divisi->result_array() as $nd) :
-                      $kode_unor = $nd['kode_unor'];
-                      $nama_divisi = $nd['nama_divisi'];
-                      ?>
-                      <option value="<?php echo $kode_unor;?>"> <?php echo $nama_divisi;?></option>
-                    <?php endforeach;?>
+                    <?php foreach ($divisi->result_array() as $row_divisi): ?>
+                      <?php if ($row_divisi['kode_unor'] != $selected_kode_unor): ?>
+                        <option value="<?php echo $row_divisi['kode_unor']; ?>">
+                          <?php echo $row_divisi['nama_divisi']; ?>
+                        </option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
                   </select>
                 <?php } ?>
+
+
               </div>
             </div>
             <div class="row mt-2">
@@ -494,5 +526,6 @@ foreach ($pegawai->result_array() as $row) :
 <!-- ./wrapper -->
 
 <?php include 'layouts/js.php';?>
+
 </body>
 </html>

@@ -106,55 +106,71 @@ class Pegawai  extends CI_Controller
 
   public function update()
   {
-   $nip = $this->input->post('nip_pegawai');
-   $nik = $this->input->post('nik');
-   $nama = $this->input->post('nama');
-   $jk = $this->input->post('jk');
-   $alamat = $this->input->post('alamat');
-   $tempat_lahir = $this->input->post('tempat_lahir');
-   $tgl_lahir = $this->input->post('tgl_lahir');
-   $pendidikan = $this->input->post('pendidikan');
-   $no_hp = $this->input->post('no_hp');
-   $email = $this->input->post('email');
-   $status = $this->input->post('status');
-   $no_sk = $this->input->post('no_sk');
-   $tmk = $this->input->post('tmk');
-   $tbk = $this->input->post('tbk');
-   $jabatan = $this->input->post('jabatan');
-   $kode_unor = $this->input->post('kode_unor');
-   $id_pegawai = $this->input->post('id_pegawai');
+    $nip         = $this->input->post('nip_pegawai'); 
+    $nip_lama    = $this->input->post('nip_lama');    
+    $id_pegawai  = $this->input->post('id_pegawai');
 
-   $data = array(
-    'nip_pegawai'            => $nip,
-    'nik'            => $nik,
-    'nama'           => $nama,
-    'jk'             => $jk,
-    'alamat'         => $alamat,
-    'tempat_lahir'   => $tempat_lahir,
-    'tgl_lahir'      => $tgl_lahir,
-    'pendidikan'     => $pendidikan,
-    'no_hp'          => $no_hp,
-    'email'          => $email,
-    'status'         => $status,
-    'no_sk'          => $no_sk,
-    'tmk'            => $tmk,
-    'tbk'            => $tbk,
-    'jabatan'        => $jabatan,
-    'kode_unor'        => $kode_unor
-  );
+    $nik         = $this->input->post('nik');
+    $nama        = $this->input->post('nama');
+    $jk          = $this->input->post('jk');
+    $alamat      = $this->input->post('alamat');
+    $tempat_lahir = $this->input->post('tempat_lahir');
+    $tgl_lahir   = $this->input->post('tgl_lahir');
+    $pendidikan  = $this->input->post('pendidikan');
+    $no_hp       = $this->input->post('no_hp');
+    $email       = $this->input->post('email');
+    $status      = $this->input->post('status');
+    $no_sk       = $this->input->post('no_sk');
+    $tmk         = $this->input->post('tmk');
+    $tbk         = $this->input->post('tbk');
+    $jabatan     = $this->input->post('jabatan');
+    $kode_unor   = $this->input->post('kode_unor');
 
-   $where = array(
-    'id_pegawai' => $id_pegawai
-  );
+    $cek = $this->db->where('nip_pegawai', $nip)
+    ->where('id_pegawai !=', $id_pegawai)
+    ->get('tbl_pegawai');
 
-   $this->M_pegawai->update_data($where, $data, 'tbl_pegawai');
-   $this->session->set_flashdata('toast', json_encode([
-    'icon' => 'success',  
-    'title' => 'Data berhasil disimpan!'
-  ]));
-   redirect('pegawai'); 
+    $data = array(
+      'nik'            => $nik,
+      'nama'           => $nama,
+      'jk'             => $jk,
+      'alamat'         => $alamat,
+      'tempat_lahir'   => $tempat_lahir,
+      'tgl_lahir'      => $tgl_lahir,
+      'pendidikan'     => $pendidikan,
+      'no_hp'          => $no_hp,
+      'email'          => $email,
+      'status'         => $status,
+      'no_sk'          => $no_sk,
+      'tmk'            => $tmk,
+      'tbk'            => $tbk,
+      'jabatan'        => $jabatan,
+      'kode_unor'      => $kode_unor
+    );
 
- }
+    if ($cek->num_rows() == 0) {
+      $data['nip_pegawai'] = $nip;
+    } else {
+      $this->session->set_flashdata('toast', json_encode([
+        'icon' => 'info',
+        'title' => 'Data berhasil diupdate, namun NIP tidak diubah karena sudah digunakan pegawai lain.'
+      ]));
+    }
+
+    $where = array('id_pegawai' => $id_pegawai);
+    $this->M_pegawai->update_data($where, $data, 'tbl_pegawai');
+
+    if (!$this->session->flashdata('toast')) {
+      $this->session->set_flashdata('toast', json_encode([
+        'icon' => 'success',
+        'title' => 'Data berhasil disimpan!'
+      ]));
+    }
+
+    redirect('pegawai');
+
+
+  }
 
 
 }

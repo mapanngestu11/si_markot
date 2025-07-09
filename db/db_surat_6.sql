@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Jul 2025 pada 14.22
+-- Waktu pembuatan: 09 Jul 2025 pada 17.21
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -43,9 +43,8 @@ CREATE TABLE `tbl_disposisi` (
 --
 
 INSERT INTO `tbl_disposisi` (`id_disposisi`, `id_surat_masuk`, `tgl_agenda`, `informasi`, `status`, `diteruskan`, `nip_pegawai`) VALUES
-(2, 1, '2025-06-28', '', 'Pending', '1', '003'),
-(3, 2, '2025-07-06', '<p>disposisi</p>', 'Accept', '002', '004'),
-(4, 2, '2025-07-06', '<p>disposisi</p>', 'Accept', '002', '004');
+(1, 1, '2025-07-09', '<p>testing disposisi</p>', 'Approve', '002', '004'),
+(2, 1, '2025-07-09', '<p>testing disposisi</p>', 'Approve', '001', '004');
 
 -- --------------------------------------------------------
 
@@ -92,7 +91,7 @@ CREATE TABLE `tbl_kode_surat` (
 --
 
 INSERT INTO `tbl_kode_surat` (`id_kode`, `no_surat`, `kode_surat`, `judul`, `tanggal`, `keterangan`) VALUES
-(1, '3', 'ORG', 'Organisasi', '2025-07-01', 'Surat yang berhubungan dengan pembentukan kepengurusan, pembinaan, pemberdayaan Organisasi PMI dan diseminasi.'),
+(1, '0', 'ORG', 'Organisasi', '2025-07-01', 'Surat yang berhubungan dengan pembentukan kepengurusan, pembinaan, pemberdayaan Organisasi PMI dan diseminasi.'),
 (2, '1', 'PB', 'Penanganan Bencana', '2025-07-01', 'Surat yang berhubungan penanganan bencana.'),
 (3, '0', 'PK', 'Pelayanan SOsial', '2025-07-01', 'Surat yang berhubungan dengan kegiatan pelayanan sosial dan kesehatan.'),
 (4, '0', 'RLW', 'Relawan', '2025-07-01', 'Surat yang berhubungan dengan pembinaan dan pemberdayaan PMR,KSR dan TSR PMI .'),
@@ -103,7 +102,7 @@ INSERT INTO `tbl_kode_surat` (`id_kode`, `no_surat`, `kode_surat`, `judul`, `tan
 (9, '0', 'HUM', 'Humas', '2025-07-01', 'Surat yang berhubungan dengan kehumasan.'),
 (10, '0', 'HK-REN', 'Legisiasi', '2025-07-01', 'Surat yang berhubungan dengan legisiasi dan perencanaan.'),
 (11, '0', 'DIKLAT', 'Pelatihan', '2025-07-01', 'Surat yang berhubungan dengan kegiatan pendidikan dan pelatihan kepalangmerahan.'),
-(12, '1', 'IT', 'Teknologi', '2025-07-01', 'Surat yang berhubungan dengan teknologi sistem informasi.'),
+(12, '0', 'IT', 'Teknologi', '2025-07-01', 'Surat yang berhubungan dengan teknologi sistem informasi.'),
 (13, '0', 'POLI', 'Poliklinik', '2025-07-01', 'Surat yang berhubungan dengan poliklinik,kesehatan dan pengobatan pengurus/pegawai .'),
 (14, '0', 'SKAI', 'Audit', '2025-07-01', 'Surat yang berhubungan dengan pelaksanaan internal audit.'),
 (15, '0', 'UDD', 'Donor Darah', '2025-07-01', 'Surat yang berhubungan dengan unit donor darah.'),
@@ -145,7 +144,7 @@ INSERT INTO `tbl_pegawai` (`id_pegawai`, `nip_pegawai`, `nama`, `nik`, `jk`, `al
 (4, '002', 'bahlil', '123456', 'Laki-laki', 'tangerang', 'tangerang', '2025-07-01', 'DI/DII/DII', '08312345', 'bahlil@gmail.com', 'Pegawai Tetap', '123', '2025-07-01', '2025-07-04', 'kepala admin', '003'),
 (5, '003', 'Erick Thohir', '123456', 'Laki-laki', 'tangerang', 'tangerang', '2025-07-01', 'DI/DII/DII', '08312345', 'erick@gmail.com', 'Pegawai Tetap', '14', '2025-07-01', '2025-07-11', 'admin operator', 'admin'),
 (6, '004', 'luhut', '', 'Laki-laki', 'tangerang', 'tangerang', '2025-07-01', 'S2', '08312345', 'luhut', 'Kontrak', '13', '2025-07-02', '2025-07-02', 'pimpinan', 'pimpinan'),
-(7, '', '1', '', 'Perempuan', '', '', '0000-00-00', '', '', '', 'Pegawai Tetap', '', '', '', '', 'admin');
+(7, '12345', '1', '1234', 'Perempuan', '', '', '0000-00-00', '', '', '', 'Pegawai Tetap', '', '', '', '', '001');
 
 -- --------------------------------------------------------
 
@@ -172,7 +171,7 @@ CREATE TABLE `tbl_surat_keluar` (
 --
 
 INSERT INTO `tbl_surat_keluar` (`id_surat_keluar`, `tgl_surat_keluar`, `id_kode`, `bulan`, `tahun`, `lampiran`, `perihal`, `kepada`, `isi_surat`, `status`, `nip_pegawai`) VALUES
-(5, '2025-07-06', '1', 'Januari', '2023', '4811b73587abe46789eef802ef3a3ba6.pdf', 'testing surat keluar', 'rs tangerang', '<p>testing surat</p>', 'Accept', '004');
+(1, '2025-07-09', '2', 'Juli', '2025', 'c06ae77c75abd49019fb19b1bdec65ea.pdf', 'testing surat keluar', 'rs tangerang 1', '<p>testing surat keluar </p>', 'Approve', '004');
 
 -- --------------------------------------------------------
 
@@ -198,7 +197,7 @@ CREATE TABLE `tbl_surat_masuk` (
 --
 
 INSERT INTO `tbl_surat_masuk` (`id_surat_masuk`, `sifat_surat`, `tgl_terima`, `no_agenda`, `perihal`, `no_surat`, `tgl_surat_masuk`, `asal_surat`, `file_surat_masuk`, `nip_pegawai`) VALUES
-(2, 'Rahasia', '2025-07-10', '001', 'testing surat masuk', '001/sm/vii/2025', '2025-07-01', 'Dari BPBD', 'f5aea156836e30d5968e90f7c1b76028.pdf', '002');
+(1, 'Penting', '2025-07-09', '1', 'testing surat masuk 1', '001/sm/vii/2025', '2025-07-09', 'Dari BPBD', '8de5bc6c277af297a4ad44baae595256.pdf', '004');
 
 -- --------------------------------------------------------
 
@@ -223,10 +222,11 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`id_user`, `nama`, `email`, `nip_pegawai`, `jabatan`, `ttd`, `user_level`, `username`, `password`) VALUES
-(1, 'budi', 'budi@gmail.com', '001', 'admin divisi', 'd27eef1d9182024f2d25cfcf4617f0a7.png', '3', 'budi', 'eea2c1e5e921bba51478fb8ff99fa077'),
+(1, 'budi', 'budi@gmail.com', '001', 'admin divisi', 'd27eef1d9182024f2d25cfcf4617f0a7.png', '3', 'budi', 'f7e0ef389ac6133c88aedbd66b44a4e1'),
 (2, 'bahlil', 'bahlil@gmail.com', '002', 'kepala admin', 'c1aa59030b53281d2990021c4dd77f25.png', '3', 'bahlil', '5e3c6abd6c9a90dbd00c53ea3c5f043f'),
 (3, 'Erick Thohir', 'erick@gmail.com', '003', 'admin operator', '652efd40e1b4887c27baa5b8a94fe8c7.png', '2', 'erick', '7488e331b8b64e5794da3fa4eb10ad5d'),
-(4, 'luhut', 'luhut@gmail.com', '004', 'pimpinan', '11abecfe884e19206129a8a02144970a.png', '1', 'luhut', '9f253f5b155f1832170f6e8ee8c6fa5c');
+(4, 'luhut', 'luhut@gmail.com', '004', 'pimpinan', '11abecfe884e19206129a8a02144970a.png', '1', 'luhut', '9f253f5b155f1832170f6e8ee8c6fa5c'),
+(5, 'cek1', 'cek@gmail.com', '007', 'admin operator', 'f5d3bf806b321e0745747bcc66ebe287.png', '2', 'manager123', '4739c5c11d833bb199c16ff95a92b267');
 
 --
 -- Indexes for dumped tables
@@ -282,7 +282,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT untuk tabel `tbl_disposisi`
 --
 ALTER TABLE `tbl_disposisi`
-  MODIFY `id_disposisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_disposisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_divisi`
@@ -300,25 +300,25 @@ ALTER TABLE `tbl_kode_surat`
 -- AUTO_INCREMENT untuk tabel `tbl_pegawai`
 --
 ALTER TABLE `tbl_pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_surat_keluar`
 --
 ALTER TABLE `tbl_surat_keluar`
-  MODIFY `id_surat_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_surat_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_surat_masuk`
 --
 ALTER TABLE `tbl_surat_masuk`
-  MODIFY `id_surat_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_surat_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

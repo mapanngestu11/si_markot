@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Laporan Surat Masuk</title>
+  <title>Laporan Surat Keluar</title>
   <style>
     body {
       font-family: "Times New Roman", Times, serif;
@@ -72,7 +72,7 @@
   </table>
 
   <!-- Judul Laporan -->
-  <h4 class="text-center" style="text-decoration: underline;">LAPORAN SURAT MASUK</h4>
+  <h4 class="text-center" style="text-decoration: underline;">LAPORAN SURAT KELUAR</h4>
   <p class="text-center">Periode: <?= $this->input->post('tgl_awal'); ?> s/d <?= $this->input->post('tgl_akhir'); ?></p>
 
   <!-- Tabel Data -->
@@ -80,27 +80,40 @@
     <thead>
       <tr>
         <th>No</th>
-        <th>Tanggal Terima</th>
-        <th>Tanggal Surat</th>
-        <th>Sifat Surat</th>
-        <th>Nomor Agenda</th>
+        <th>Tanggal Surat Keluar</th>
         <th>Nomor Surat</th>
         <th>Perihal</th>
-        <th>Asal Surat</th>
+        <th>Kepada</th>
+        <th>Nama</th>
       </tr>
     </thead>
     <tbody>
       <?php if (!empty($laporan) && $laporan->num_rows() > 0): ?>
-      <?php $no = 1; foreach ($laporan->result_array() as $row): ?>
+      <?php $no = 1; foreach ($laporan->result_array() as $row):
+      $bulan = $row['bulan'];
+      $bulan_romawi = [
+        'Januari'   => 'I',
+        'Februari'  => 'II',
+        'Maret'     => 'III',
+        'April'     => 'IV',
+        'Mei'       => 'V',
+        'Juni'      => 'VI',
+        'Juli'      => 'VII',
+        'Agustus'   => 'VIII',
+        'September' => 'IX',
+        'Oktober'   => 'X',
+        'November'  => 'XI',
+        'Desember'  => 'XII'
+      ];
+      $tahun = $row['tahun'];
+      ?>
       <tr>
         <td><?= $no++; ?></td>
-        <td><?= date('d-m-Y', strtotime($row['tgl_terima'])); ?></td>
-        <td><?= date('d-m-Y', strtotime($row['tgl_surat_masuk'])); ?></td>
-        <td><?= $row['sifat_surat']; ?></td>
-        <td><?= $row['no_agenda']; ?></td>
-        <td><?= $row['no_surat']; ?></td>
+        <td><?= date('d-m-Y', strtotime($row['tgl_surat_keluar'])); ?></td>
+        <td><?= $row['no_surat'];?>/<?php echo $row['kode_surat'];?>/<?php echo $bulan_romawi[$bulan];?>/<?php echo $tahun;?></td>
         <td><?= $row['perihal']; ?></td>
-        <td><?= $row['asal_surat']; ?></td>
+        <td><?= $row['kepada']; ?></td>
+        <td><?= $row['nama']; ?></td>
       </tr>
     <?php endforeach; ?>
     <?php else: ?>
@@ -112,12 +125,11 @@
 </table>
 
 <br><br>
-
-
-</body>
 <script>
   window.onload = function () {
     window.print();
   };
 </script>
+
+</body>
 </html>

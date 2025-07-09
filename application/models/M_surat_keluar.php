@@ -8,7 +8,7 @@ class M_surat_keluar extends CI_Model
   {
     $kode_unor =  $this->session->userdata('kode_unor');
     if ($kode_unor == 'admin' || $kode_unor == 'pimpinan') {
-     
+
       $this->db->select('
         a.*,
         b.nama,
@@ -112,6 +112,26 @@ public function hapus_nip_by_no_surat($tgl_surat_keluar,$nip,$data)
   $this->db->where('nip_pegawai', $nip);
   $this->db->where('tgl_surat_keluar', $tgl_surat_keluar);
   $this->db->delete('tbl_surat_keluar');
+}
+public function cek_laporan($tgl_awal,$tgl_akhir)
+{
+  $this->db->select('
+    a.*,
+    b.nama,
+    b.jabatan,
+    c.kode_unor,
+    c.nama_divisi,
+    d.no_surat,
+    d.kode_surat
+    ');
+  $this->db->join('tbl_pegawai as b', 'a.nip_pegawai = b.nip_pegawai','left');
+  $this->db->join('tbl_divisi as c', 'b.kode_unor = c.kode_unor','left');
+  $this->db->join('tbl_kode_surat as d','a.id_kode = d.id_kode','left');
+  $this->db->where('a.tgl_surat_keluar >=', $tgl_awal);
+  $this->db->where('a.tgl_surat_keluar <=', $tgl_akhir);
+  $this->db->order_by('a.id_surat_keluar', 'ASC');
+  $hsl = $this->db->get('tbl_surat_keluar as a');
+  return $hsl;
 }
 
 }

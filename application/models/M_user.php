@@ -37,4 +37,9 @@ class M_user extends CI_Model
         $hsl = $this->db->get('tbl_user');
         return $hsl;
     }
+    function reset_password($where, $data, $table)
+    {
+     $this->db->where($where);
+     $this->db->update($table, $data);
+ }
 }

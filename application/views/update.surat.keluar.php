@@ -102,15 +102,16 @@
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-md-8"> 
+                        <div class="col-md-12"> 
                           <label>Lampiran</label>
                           <input type="file" name="lampiran" id="lampiran" class="form-control" accept="application/pdf">
                           <p id="jumlah_halaman"></p>
                         </div>
-                        <div class="col-md-4">
-                          <label>Download File Surat</label>
-                          <br>
-                          <a href="<?php echo base_url()."assets/upload/"; ?><?php echo $data_sk['lampiran'];?>">Link Download</a>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <label>File Surat Keluar</label>
+                          <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?><?= $data_sk['lampiran'];?>" width="100%" height="400"></embed>
                         </div>
                       </div>
                       <div class="row mt-2">
@@ -172,7 +173,7 @@
                             <select class="form-control" name="status" required="">
                               <option value=""> Pilih </option>
                               <option value="Pending">Pending</option>
-                              <option value="Accept">Accept</option>
+                              <option value="Approve">Approve</option>
                             </select>
                           <?php }else{ ?>
                             <?php 
