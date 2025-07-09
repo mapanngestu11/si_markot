@@ -17,7 +17,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Buat Surat Masuk</h1>
+              <h1>Lihat Surat Masuk</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -97,11 +97,9 @@
                         </div>
                       </div>
                       <div class="row mt-2">
-
                         <div class="col-md-12">
-                          <label>Download File Surat</label>
-                          <br>
-                          <a href="<?php echo base_url()."assets/upload/"; ?><?php echo $ms['file_surat_masuk'];?>">Link Download</a>
+                          <label>Download File Surat</label><br>
+                          <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?>e87ce5b71d2a67566fae94f2c24dead1.pdf" width="100%" height="400"></embed>
                         </div>
                       </div>
 

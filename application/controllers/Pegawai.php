@@ -37,7 +37,7 @@ class Pegawai  extends CI_Controller
 
   public function create()
   {
-    $nip = $this->input->post('nip');
+    $nip = $this->input->post('nip_pegawai');
     $nik = $this->input->post('nik');
     $nama = $this->input->post('nama');
     $jk = $this->input->post('jk');
@@ -65,7 +65,7 @@ class Pegawai  extends CI_Controller
       redirect('pegawai'); 
     } else {
       $data = array(
-        'nip'            => $nip,
+        'nip_pegawai'            => $nip,
         'nik'            => $nik,
         'nama'           => $nama,
         'jk'             => $jk,
@@ -106,7 +106,7 @@ class Pegawai  extends CI_Controller
 
   public function update()
   {
-   $nip = $this->input->post('nip');
+   $nip = $this->input->post('nip_pegawai');
    $nik = $this->input->post('nik');
    $nama = $this->input->post('nama');
    $jk = $this->input->post('jk');
@@ -125,7 +125,7 @@ class Pegawai  extends CI_Controller
    $id_pegawai = $this->input->post('id_pegawai');
 
    $data = array(
-    'nip'            => $nip,
+    'nip_pegawai'            => $nip,
     'nik'            => $nik,
     'nama'           => $nama,
     'jk'             => $jk,

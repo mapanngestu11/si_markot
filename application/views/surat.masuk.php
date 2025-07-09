@@ -86,96 +86,101 @@
                           <td><?php echo $asal_surat;?></td>
                           <td><?php echo $tgl_hari . ' ' . $bulan[(int)$bln] . ' ' . $th;?></td>
                           <td>
-                            <?php if ($hak_akses == '2') { ?>
-                              <a href="<?= site_url('surat/update_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white"> Edit </a> 
-                              <a href="<?= site_url('surat/view_disposisi/' . $id_surat_masuk); ?>" class="btn btn-success">Disposisi</a> 
-                              <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> Hapus</button>
-
-                            <?php }else{ ?>
-                              <a href="<?= site_url('surat/view_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-primary">Lihat Surat</a>
-                            <?php } ?>
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    </tfoot>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-            </div>
-            <!-- /.col -->
-          </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-      </section>
-      <!-- /.content -->
-
-
-      <!-- /.modal -->
-
-      <style type="text/css">
-        .photo{
-          width: 300px;
-          height: 150px;
-          border: 2px solid #000;
-        }
-      </style>
-      <?php
-      $no = 0;
-      foreach ($masuk->result_array() as $row) :
-
-        $no++;
-        $id_surat_masuk    = $row['id_surat_masuk'];
-        $no_surat           = $row['no_surat'];
-
-        ?>
-        <!-- awal modal -->
-        <div class="modal fade" id="modal-hapus<?php echo $id_surat_masuk;?>">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Hapus Surat Masuk</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form action="<?= site_url('surat/proses_delete_surat_masuk') ?>" method="POST" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <p>Apakah Kamu yakin ingin menghapus surat masuk dengan nomor surat, <strong><?php echo $no_surat;?></strong></p>
-                    <input type="hidden" name="no_surat" value="<?php echo $no_surat;?>">
+                            <?php if ($hak_akses == '1') { ?>
+                              <a href="<?= site_url('surat/update_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white">
+                                <i class="nav-icon fas fa-pen"></i > Edit </a> 
+                                <a href="<?= site_url('surat/view_disposisi/' . $id_surat_masuk); ?>" class="btn btn-success">  <i class="nav-icon fas fa-link"></i> Buat Disposisi</a> 
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> <i class="nav-icon fas fa-trash"></i> Hapus</button>
+                              <?php }elseif($hak_akses == '2'){ ?>
+                                <a href="<?= site_url('surat/view_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i> Lihat Surat</a>
+                                <a href="<?= site_url('surat/update_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-warning" style="color: white">
+                                  <i class="nav-icon fas fa-pen"></i > Edit </a> 
+                                  <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_masuk;?>"> <i class="nav-icon fas fa-trash"></i> Hapus</button>
+                                <?php }else{ ?>
+                                  <a href="<?= site_url('surat/view_surat_masuk/' . $id_surat_masuk); ?>" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i> Lihat Surat</a>
+                                <?php } ?>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
                   </div>
+                  <!-- /.card -->
                 </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Hapus Data</button>
-                </div>
+                <!-- /.col -->
               </div>
-            </form>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </section>
+          <!-- /.content -->
+
+
+          <!-- /.modal -->
+
+          <style type="text/css">
+            .photo{
+              width: 300px;
+              height: 150px;
+              border: 2px solid #000;
+            }
+          </style>
+          <?php
+          $no = 0;
+          foreach ($masuk->result_array() as $row) :
+
+            $no++;
+            $id_surat_masuk    = $row['id_surat_masuk'];
+            $no_surat           = $row['no_surat'];
+
+            ?>
+            <!-- awal modal -->
+            <div class="modal fade" id="modal-hapus<?php echo $id_surat_masuk;?>">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Hapus Surat Masuk</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="<?= site_url('surat/proses_delete_surat_masuk') ?>" method="POST" enctype="multipart/form-data">
+                      <div class="form-group">
+                        <p>Apakah Kamu yakin ingin menghapus surat masuk dengan nomor surat, <strong><?php echo $no_surat;?></strong></p>
+                        <input type="hidden" name="no_surat" value="<?php echo $no_surat;?>">
+                      </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Hapus Data</button>
+                    </div>
+                  </div>
+                </form>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+
+          <?php endforeach;?>
+
+
+
+
         </div>
 
-      <?php endforeach;?>
+        <?php include 'layouts/footer.php';?>
 
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+          <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+      </div>
+      <!-- ./wrapper -->
 
-
-
-    </div>
-
-    <?php include 'layouts/footer.php';?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
-
-  <?php include 'layouts/js.php';?>
-</body>
-</html>
+      <?php include 'layouts/js.php';?>
+    </body>
+    </html>

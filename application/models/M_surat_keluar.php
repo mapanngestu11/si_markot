@@ -35,7 +35,7 @@ class M_surat_keluar extends CI_Model
      $this->db->join('tbl_pegawai as b', 'a.nip_pegawai = b.nip_pegawai','left');
      $this->db->join('tbl_divisi as c', 'b.kode_unor = c.kode_unor','left');
      $this->db->join('tbl_kode_surat as d','a.id_kode = d.id_kode','left');
-     $this->db->where('c.kode_unor',$kode_unor);
+     // $this->db->where('c.kode_unor',$kode_unor);
      return $this->db->get('tbl_surat_keluar as a');
    }
  }

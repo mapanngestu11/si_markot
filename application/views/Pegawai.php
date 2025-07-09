@@ -63,7 +63,7 @@
 
                         $no++;
                         $id_pegawai           = $row['id_pegawai'];
-                        $nip           = $row['nip'];
+                        $nip           = $row['nip_pegawai'];
                         $nama                = $row['nama'];
                         $jabatan                = $row['jabatan'];
                         ?>
@@ -320,7 +320,7 @@ foreach ($pegawai->result_array() as $row) :
 
   $no++;
   $id_pegawai           = $row['id_pegawai'];
-  $nip           = $row['nip'];
+  $nip           = $row['nip_pegawai'];
   $nik           = $row['nik'];
   $nama          = $row['nama'];
   $jk            = $row['jk'];

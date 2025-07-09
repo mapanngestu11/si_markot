@@ -17,7 +17,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Buat Surat Disposisi</h1>
+              <h1>Lihat Surat Disposisi</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -36,17 +36,20 @@
             <div class="card card-outline card-info">
               <div class="card-header">
                 <h3 class="card-title">
-                  Buat Surat Disposisi
+                  Lihat Surat Disposisi
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form action="<?php echo base_url('surat/proses_add_disposisi') ?>" method="POST">
+                <form action="<?php echo base_url('surat/proses_update_surat_disposisi') ?>" method="POST">
                   <div class="form-group">
-                    <div class="row">
+                   <div class="row">
+                    <?php 
+                    foreach ($dpid->result_array() as $data_disposisi) : ?>
+
                       <div class="col-md-12">
                         <label>Tanggal Surat</label>
-                        <input type="date" name="tgl_agenda" class="form-control" value="<?= date('Y-m-d') ?>">
+                        <input type="date" name="tgl_agenda" class="form-control" value="<?php echo $data_disposisi['tgl_agenda'];?>" readonly>
                       </div>
                     </div>
                     <div class="row mt-2">
@@ -77,58 +80,74 @@
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body">
-                            <textarea id="summernote" name="informasi"></textarea>
+                           <div class="form-control" style="background-color: #f8f9fa;">
+                            <?= $data_disposisi['informasi']; ?>
                           </div>
+
                         </div>
                       </div>
                     </div>
-                    <div class="row mt-2">
-                      <div class="col-md-6">
-                        <label>Di sahkan Oleh:</label>
-                        <?php
-                        $nama_login =  $this->session->userdata('nama');
-                        $nip =  $this->session->userdata('nip_pegawai');
-                        ?>
-                        <input type="text" class="form-control" readonly="" value="<?php echo $nama_login;?>">
-                        <input type="hidden" name="nip_pegawai" value="<?php echo $nip;?>">
-                      </div>
-                      <div class="col-md-6">
-                        <label>Ditujukan Oleh :</label>
-                        <select class="select2" name="diteruskan[]" multiple="multiple" data-placeholder="Pilih Divisi" style="width: 100%;">
-                          <?php foreach ($pegawai->result_array() as $pg): ?>
-                            <option value="<?php echo $pg['nip_pegawai']; ?>">
-                              <?php echo $pg['nama']; ?> | <?php echo $pg['nama_divisi']; ?>
-                            </option>
-                          <?php endforeach; ?>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-12">
+                      <label>File Lampiran</label><br>
+                      <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?><?php echo $data_disposisi['file_surat_masuk'];?>" width="100%" height="400"></embed>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-md-6">
+                      <label>Disahkan Oleh :</label>
+                      <input type="text" name="" class="form-control" value="<?php echo $data_disposisi['nama'];?>" readonly>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label>Status Surat</label>
+
+                      <?php
+
+                      $hak_akses =  $this->session->userdata('user_level');
+                      if ($hak_akses == '1') { ?>
+                        <select class="form-control" name="status" required="">
+                          <option value=""> Pilih </option>
+                          <option value="Pending">Pending</option>
+                          <option value="Approve">Approve</option>
                         </select>
-                      </div>
+                      <?php }else{ ?>
+                        <?php 
+                        $status = $data_disposisi['status'];
+                        if ($status == 'Pending') { ?>
+                          <input type="text" name="status" class="form-control bg-warning" value="<?php echo $status;?>" readonly>
+                        <?php }else{?>
+                          <input type="text" name="status" class="form-control bg-success" value="<?php echo $status;?>" readonly>
+                        <?php } ?>
+                      <?php }?>
                     </div>
                   </div>
                   <hr>
                   <a href="<?php echo base_url('surat/disposisi') ?>" class="btn btn-secondary">Kembali</a>
-                  <button type="submit" class="btn btn-primary">Buat Surat</button>
                 </div>
-              </form>
-            </div>
+              <?php endforeach; ?>
+            </form>
           </div>
-          <!-- /.col-->
         </div>
-      </section>
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <?php include 'layouts/footer.php';?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- /.col-->
+      </div>
+    </section>
+    <!-- /.content -->
   </div>
-  <!-- ./wrapper -->
+  <!-- /.content-wrapper -->
 
-  <?php include 'layouts/js.php';?>
+  <?php include 'layouts/footer.php';?>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<?php include 'layouts/js.php';?>
 
 </body>
 </html>

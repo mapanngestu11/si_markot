@@ -110,7 +110,7 @@
                       </div>
                       <div class="col-md-4">
                         <label>Ditujukan Oleh :</label>
-                        <select class="select2" name="diteruskan[]" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                        <select class="select2" name="diteruskan[]" multiple="multiple" data-placeholder="Pilih Divisi" style="width: 100%;" required="">
                           <?php foreach ($pegawai->result_array() as $pg): ?>
                             <option value="<?php echo $pg['nip_pegawai']; ?>">
                               <?php echo $pg['nama']; ?> |  <?php echo $pg['nama_divisi']; ?>
@@ -128,7 +128,7 @@
                           <select class="form-control" name="status" required="">
                             <option value=""> Pilih </option>
                             <option value="Pending">Pending</option>
-                            <option value="Accept">Accept</option>
+                            <option value="Approve">Approve</option>
                           </select>
                         <?php }else{ ?>
                           <?php 

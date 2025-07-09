@@ -18,7 +18,9 @@
         <?php endif; ?>
         <form action="<?= site_url('login/auth') ?>" method="post">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="username" placeholder="Username">
+            <input type="text" class="form-control" name="username" placeholder="Username" required
+            oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+            oninput="this.setCustomValidity('')">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -26,7 +28,9 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password">
+            <input type="password" class="form-control" name="password" placeholder="Password" required
+            oninvalid="this.setCustomValidity('Harap isi bagian ini')"
+            oninput="this.setCustomValidity('')">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>

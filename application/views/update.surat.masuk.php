@@ -9,6 +9,13 @@
 
     <!-- Main Sidebar Container -->
     <?php include 'layouts/aside.php';?>
+    <style>
+      iframe {
+        width: 20%;
+        /*height: 100vh;*/
+        border: none;
+      }
+    </style>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -90,20 +97,21 @@
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-md-8"> 
+                        <div class="col-md-12"> 
                           <label>File Surat Masuk</label>
                           <input type="file" name="file_surat_masuk" class="form-control">
                         </div>
-                        <div class="col-md-4">
-                          <label>Download File Surat</label>
-                          <br>
-                          <a href="<?php echo base_url()."assets/upload/"; ?><?php echo $ms['file_surat_masuk'];?>">Link Download</a>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <label>Download File Surat</label><br>
+                          <embed type="application/pdf" src="<?php echo base_url()."assets/upload/"; ?><?php echo $ms['file_surat_masuk'];?>" width="100%" height="400"></embed>
                         </div>
                       </div>
                       <div class="row mt-3">
                         <div class="col-md-8">
                           <label>Ditujukan Oleh :</label>
-                          <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Penerima" style="width: 100%;" required="">
+                          <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pimpinan" style="width: 100%;" required="">
                             <option> Pilih </option>
                             <?php foreach ($pegawai->result_array() as $pg): ?>
                               <option value="<?php echo $pg['nip_pegawai']; ?>">

@@ -96,10 +96,10 @@
                 </div>
                 <div class="row mt-3">
                  <div class="col-md-8">
-                   <label>Ditujukan Oleh :</label>
-                   <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pimpinan" style="width: 100%;">
+                  <label>Disposisi Kepada :</label>
+                  <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pimpinan" style="width: 100%;">
                     <?php foreach ($pegawai->result_array() as $pg): ?>
-                      <option value="<?= $pg['nip']; ?>">
+                      <option value="<?= $pg['nip_pegawai']; ?>">
                         <?= $pg['nama']; ?> | [PIMPINAN]
                       </option>
                     <?php endforeach; ?>

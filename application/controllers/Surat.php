@@ -30,15 +30,13 @@ class Surat  extends CI_Controller
     $data['title'] = "Buat Surat Masuk | PMI Kota Tangerang";
     $data['ns'] = $this->M_nomor->tampil_data();
     $cek_no_agenda = $this->M_surat_masuk->get_no_agenda();
-    $cek = $cek_no_agenda->result_array()[0]['no_agenda'];
+    $cek_data = $cek_no_agenda->result_array();
 
-    if (!empty($cek)) {
-      $hasil = (int)$cek;
-      
-      $new_nomor = $hasil + 1;
-
+    if (!empty($cek_data) && !empty($cek_data[0]['no_agenda'])) {
+      $last_nomor = (int)$cek_data[0]['no_agenda']; 
+      $new_nomor = $last_nomor + 1;
     } else {
-      $new_nomor = 1; 
+      $new_nomor = 1;
     }
 
     $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
@@ -280,6 +278,7 @@ class Surat  extends CI_Controller
   {
     $no_surat = $this->input->post('no_surat');
     $this->M_surat_masuk->delete_data($no_surat);
+    $this->M_surat_disposisi->delete_data($id_surat_masuk);
     $this->session->set_flashdata('toast', json_encode([
       'icon' => 'success',  
       'title' => 'Data berhasil dihapus!'
@@ -311,6 +310,17 @@ class Surat  extends CI_Controller
 
     $this->load->view('update.surat.disposisi.php',$data); 
 
+  }
+
+  public function view_surat_disposisi ($id_surat_masuk)
+  {
+    $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
+    $data['masuk'] = $this->M_surat_masuk->tampil_data();
+    $data['pegawai'] = $this->M_pegawai->tampil_data_divisi();
+    $data['dp'] = $this->M_surat_masuk->cek_surat($id_surat_masuk);
+    $data['dpid'] = $this->M_surat_disposisi->get_byId($id_surat_masuk);
+
+    $this->load->view('view.surat.disposisi.php',$data); 
   }
 
   public function keluar()

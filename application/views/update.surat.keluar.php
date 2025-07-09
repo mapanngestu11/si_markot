@@ -153,7 +153,7 @@
                             <input type="text" class="form-control" readonly="" value="<?php echo $nama_login;?>">
                             <input type="hidden" name="nip_pegawai" class="form-control" value="<?php echo $nip_login;?>">
                           <?php }else{ ?>
-                            <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Select a State" style="width: 100%;"  required="">
+                            <select class="select2" name="nip_pegawai[]" multiple="multiple" data-placeholder="Pilih Pimpinan" style="width: 100%;"  required="">
                               <?php foreach ($pegawai->result_array() as $pg): ?>
                                 <option value="<?php echo $pg['nip_pegawai']; ?>">
                                   <?php echo $pg['nama']; ?> | [PIMPINAN]

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ni<!DOCTYPE html>
 <html lang="en">
 <?php include 'layouts/head.php';?>
 <body class="hold-transition sidebar-mini">
@@ -252,7 +252,7 @@ foreach ($users->result_array() as $row) :
 
   $no++;
   $id_user           = $row['id_user'];
-  $nip = $row['nip'];
+  $nip = $row['nip_pegawai'];
   $nama = $row['nama'];
   $email = $row['email'];
   $jabatan = $row['jabatan'];
@@ -327,23 +327,35 @@ foreach ($users->result_array() as $row) :
             <div class="col-md-4">
               <label>Hak Akses</label>
               <select class="form-control" class="form-control" name="user_level" required="">
-                <option value="<?php echo $user_level;?>"> <?php echo $user_level;?> </option>
-                <option value="1"> Pimpinan </option>
-                <option value="2"> Admin (Operator) </option>
-                <option value="3"> Admin Divisi </option>
-              </select>
-            </div>
+                <option value="<?php echo $user_level;?>"> 
+                  <?php 
+                  if ($user_level == '1') {
+                   $hak_akses = 'Pimpinan';
+                 }elseif($user_level =='2'){
+                  $hak_akses = 'Admin (Operator)';
+                }else{
+                  $hak_akses = 'Admin Divisi';
+                }
+                ?>
 
+                <?php echo $hak_akses;?>
+              </option>
+              <option value="1"> Pimpinan </option>
+              <option value="2"> Admin (Operator) </option>
+              <option value="3"> Admin Divisi </option>
+            </select>
           </div>
+
         </div>
       </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
     </div>
-  </form>
-  <!-- /.modal-content -->
+    <div class="modal-footer justify-content-between">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</form>
+<!-- /.modal-content -->
 </div>
 <!-- /.modal-dialog -->
 </div>

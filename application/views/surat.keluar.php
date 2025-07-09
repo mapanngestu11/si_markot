@@ -45,7 +45,7 @@
                  <?php 
                  $hak_akses =  $this->session->userdata('user_level');
                  ?>
-                 <?php if ($hak_akses == '2') { ?>
+                 <?php if ($hak_akses == '2' || $hak_akses == '3') { ?>
                   <a href="<?= site_url('surat/create_surat_keluar') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Surat Keluar</a>
                 <?php }?>
                 <br>
@@ -110,86 +110,87 @@
                           <?php } ?>
                         </td>
                         <td>
-                          <?php if ($status == 'Pending') { ?>
-                            <!-- tidak ada tombol -->
-                          <?php }else{ ?>
-                            <button class="btn btn-primary">Cetak</button>
-                          <?php } ?>
+
                           <?php if ($hak_akses == '2' || $hak_akses == '1') { ?>
                             <a href="<?= site_url('surat/update_surat_keluar/' . $id_surat_keluar); ?>" class="btn btn-warning" style="color: white"> Edit </a> 
                             <button class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus<?php echo $id_surat_keluar;?>"> Hapus</button> 
                           <?php }else{ ?>
-                            <a href="<?= site_url('surat/view_surat_keluar/' . $id_surat_keluar); ?>" class="btn btn-primary">Lihat Surat</a>
+                           <?php if ($status == 'Pending') { ?>
+                            <!-- tidak ada tombol -->
+                          <?php }else{ ?>
+                            <button class="btn btn-success">Cetak</button>
                           <?php } ?>
-                        </td>
-                      </tr>
+                          <a href="<?= site_url('surat/view_surat_keluar/' . $id_surat_keluar); ?>" class="btn btn-primary">Lihat Surat</a>
+                        <?php } ?>
+                      </td>
+                    </tr>
 
-                    <?php endforeach; ?>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
+                  <?php endforeach; ?>
+                </tfoot>
+              </table>
             </div>
-            <!-- /.card -->
+            <!-- /.card-body -->
           </div>
-          <!-- /.col -->
+          <!-- /.card -->
         </div>
-        <!-- /.row -->
+        <!-- /.col -->
       </div>
-      <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
 
 
-    <!-- /.modal -->
+  <!-- /.modal -->
 
-    <style type="text/css">
-      .photo{
-        width: 300px;
-        height: 150px;
-        border: 2px solid #000;
-      }
-    </style>
-    <?php
-    $no = 0;
-    foreach ($keluar->result_array() as $row) :
+  <style type="text/css">
+    .photo{
+      width: 300px;
+      height: 150px;
+      border: 2px solid #000;
+    }
+  </style>
+  <?php
+  $no = 0;
+  foreach ($keluar->result_array() as $row) :
 
-      $no++;
-      $id_surat_keluar           = $row['id_surat_keluar'];
-      $tgl_surat_keluar          = $row['tgl_surat_keluar'];
-      $id_kode                   = $row['id_kode'];
+    $no++;
+    $id_surat_keluar           = $row['id_surat_keluar'];
+    $tgl_surat_keluar          = $row['tgl_surat_keluar'];
+    $id_kode                   = $row['id_kode'];
 
-      ?>
-      <!-- awal modal -->
-      <div class="modal fade" id="modal-hapus<?php echo $id_surat_keluar;?>">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Hapus Data Surat Keluar</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="<?= site_url('surat/proses_delete_surat_keluar') ?>" method="POST" enctype="multipart/form-data">
-               <div class="form-group">
-                <p>Apakah Kamu yakin ingin menghapus surat keluar pada tanggal, <strong><?php echo $tgl_surat_keluar;?></strong></p>
-                <input type="hidden" name="tgl_surat_keluar" value="<?php echo $tgl_surat_keluar;?>">
-                <input type="hidden" name="id_kode" value="<?php echo $id_kode;?>">
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
+    ?>
+    <!-- awal modal -->
+    <div class="modal fade" id="modal-hapus<?php echo $id_surat_keluar;?>">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Hapus Data Surat Keluar</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="<?= site_url('surat/proses_delete_surat_keluar') ?>" method="POST" enctype="multipart/form-data">
+             <div class="form-group">
+              <p>Apakah Kamu yakin ingin menghapus surat keluar pada tanggal, <strong><?php echo $tgl_surat_keluar;?></strong></p>
+              <input type="hidden" name="tgl_surat_keluar" value="<?php echo $tgl_surat_keluar;?>">
+              <input type="hidden" name="id_kode" value="<?php echo $id_kode;?>">
             </div>
           </div>
-        </form>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </form>
+      <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
+  </div>
 
-  <?php endforeach;?>
+<?php endforeach;?>
 
 
 
