@@ -6,6 +6,7 @@ class M_user extends CI_Model
 
     function tampil_data()
     {
+
         return $this->db->get('tbl_user');
     }
     function detail_kegiatan($id_user)
@@ -39,7 +40,13 @@ class M_user extends CI_Model
     }
     function reset_password($where, $data, $table)
     {
-     $this->db->where($where);
-     $this->db->update($table, $data);
- }
+       $this->db->where($where);
+       $this->db->update($table, $data);
+   }
+   function tampil_data_user()
+   {
+    $this->db->where_in('user_level', [1, 2]);
+    return $this->db->get('tbl_user');
+
+}
 }

@@ -24,7 +24,7 @@ class User  extends CI_Controller
     {
 
         $data['title'] = 'Data User | PMI Kota Tangerang';
-        $data['users'] = $this->M_user->tampil_data();
+        $data['users'] = $this->M_user->tampil_data_user();
         $this->load->view('user.php',$data);
     }
 
