@@ -94,500 +94,514 @@ class Surat  extends CI_Controller
     $this->load->view('view.surat.masuk.php',$data);
   }
 
-  public function proses_add_surat_masuk()
+  public function view_surat_keluar($id_surat_keluar)
   {
+   $data['title'] = "Data Surat Keluar | PMI Kota Tangerang";
+   $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
+   $data['sk'] = $this->M_surat_keluar->get_byId($id_surat_keluar);
+   $id_kode = $data['sk']->result_array()[0]['id_kode'];
+   $data['skid'] = $this->M_nomor->tampil_databyId($id_kode);
+   
+   $data['kode_surat'] = $this->M_nomor->tampil_data();
+   $data['keluar'] = $this->M_surat_keluar->tampil_data();
+   $this->load->view('view.surat.keluar.php',$data); 
+ }
 
-    $config['upload_path'] = './assets/upload/'; 
-    $config['allowed_types'] = 'pdf|PDF';
-    $config['encrypt_name'] = TRUE; 
-    $config['max_size']  = 10000;
+ public function proses_add_surat_masuk()
+ {
 
-    $this->upload->initialize($config);
-    if (!empty($_FILES['file_surat_masuk']['name'])) {
-      if ($this->upload->do_upload('file_surat_masuk')) {
-        $gbr = $this->upload->data();
+  $config['upload_path'] = './assets/upload/'; 
+  $config['allowed_types'] = 'pdf|PDF';
+  $config['encrypt_name'] = TRUE; 
+  $config['max_size']  = 10000;
 
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = './assets/upload/' . $gbr['file_name'];
-        $config['create_thumb'] = FALSE;
-        $config['maintain_ratio'] = FALSE;
-        $config['quality'] = '100%';
-        $config['new_image'] = './assets/upload/' . $gbr['file_name'];
-        $this->load->library('image_lib', $config);
-        $this->image_lib->resize();
+  $this->upload->initialize($config);
+  if (!empty($_FILES['file_surat_masuk']['name'])) {
+    if ($this->upload->do_upload('file_surat_masuk')) {
+      $gbr = $this->upload->data();
 
-        $file = $gbr['file_name'];
-        $sifat_surat      = $this->input->post('sifat_surat');
-        $tgl_terima   = $this->input->post('tgl_terima');
-        $no_agenda        = $this->input->post('no_agenda');
-        $perihal          = $this->input->post('perihal');
-        $no_surat         = $this->input->post('no_surat');
-        $tgl_surat_masuk  = $this->input->post('tgl_surat_masuk');
-        $asal_surat       = $this->input->post('asal_surat');
-        $nip_pegawai      = $this->input->post('nip_pegawai'); 
+      $config['image_library'] = 'gd2';
+      $config['source_image'] = './assets/upload/' . $gbr['file_name'];
+      $config['create_thumb'] = FALSE;
+      $config['maintain_ratio'] = FALSE;
+      $config['quality'] = '100%';
+      $config['new_image'] = './assets/upload/' . $gbr['file_name'];
+      $this->load->library('image_lib', $config);
+      $this->image_lib->resize();
 
-        if (!empty($nip_pegawai)) {
-          foreach ($nip_pegawai as $nip) {
-            $data = [
-              'sifat_surat'      => $sifat_surat,
-              'tgl_terima'       => $tgl_terima,
-              'no_agenda'        => $no_agenda,
-              'perihal'          => $perihal,
-              'no_surat'         => $no_surat,
-              'tgl_surat_masuk'  => $tgl_surat_masuk,
-              'asal_surat'       => $asal_surat,
-              'file_surat_masuk' => $file,
-              'nip_pegawai'      => $nip
-            ];
+      $file = $gbr['file_name'];
+      $sifat_surat      = $this->input->post('sifat_surat');
+      $tgl_terima   = $this->input->post('tgl_terima');
+      $no_agenda        = $this->input->post('no_agenda');
+      $perihal          = $this->input->post('perihal');
+      $no_surat         = $this->input->post('no_surat');
+      $tgl_surat_masuk  = $this->input->post('tgl_surat_masuk');
+      $asal_surat       = $this->input->post('asal_surat');
+      $nip_pegawai      = $this->input->post('nip_pegawai'); 
 
-            $this->M_surat_masuk->input_data($data, 'tbl_surat_masuk');
-          }
+      if (!empty($nip_pegawai)) {
+        foreach ($nip_pegawai as $nip) {
+          $data = [
+            'sifat_surat'      => $sifat_surat,
+            'tgl_terima'       => $tgl_terima,
+            'no_agenda'        => $no_agenda,
+            'perihal'          => $perihal,
+            'no_surat'         => $no_surat,
+            'tgl_surat_masuk'  => $tgl_surat_masuk,
+            'asal_surat'       => $asal_surat,
+            'file_surat_masuk' => $file,
+            'nip_pegawai'      => $nip
+          ];
 
-          $this->session->set_flashdata('toast', json_encode([
-            'icon'  => 'success',
-            'title' => 'Data berhasil disimpan untuk semua pegawai!'
-          ]));
-        } else {
-          $this->session->set_flashdata('toast', json_encode([
-            'icon'  => 'error',
-            'title' => 'NIP pegawai tidak boleh kosong!'
-          ]));
+          $this->M_surat_masuk->input_data($data, 'tbl_surat_masuk');
         }
 
-      } else {
-        // Gagal upload file
         $this->session->set_flashdata('toast', json_encode([
-          'icon'  => 'warning',
-          'title' => 'Ukuran atau format file tidak sesuai!'
+          'icon'  => 'success',
+          'title' => 'Data berhasil disimpan untuk semua pegawai!'
+        ]));
+      } else {
+        $this->session->set_flashdata('toast', json_encode([
+          'icon'  => 'error',
+          'title' => 'NIP pegawai tidak boleh kosong!'
         ]));
       }
+
     } else {
-    // Tidak ada file yang dipilih
+        // Gagal upload file
       $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'danger',
-        'title' => 'Data gagal tersimpan! File tidak ditemukan.'
+        'icon'  => 'warning',
+        'title' => 'Ukuran atau format file tidak sesuai!'
       ]));
     }
-
-// Redirect setelah proses apapun
-    redirect('Surat/masuk');
-
+  } else {
+    // Tidak ada file yang dipilih
+    $this->session->set_flashdata('toast', json_encode([
+      'icon'  => 'danger',
+      'title' => 'Data gagal tersimpan! File tidak ditemukan.'
+    ]));
   }
 
-  public function proses_update_surat_masuk()
-  {
-    $config['upload_path']   = './assets/upload/';
-    $config['allowed_types'] = 'pdf|PDF';
-    $config['encrypt_name']  = TRUE;
-    $config['max_size']      = 10000;
+// Redirect setelah proses apapun
+  redirect('Surat/masuk');
 
-    $this->upload->initialize($config);
+}
 
-    $file = null;
+public function proses_update_surat_masuk()
+{
+  $config['upload_path']   = './assets/upload/';
+  $config['allowed_types'] = 'pdf|PDF';
+  $config['encrypt_name']  = TRUE;
+  $config['max_size']      = 10000;
 
-    if (!empty($_FILES['file_surat_masuk']['name'])) {
-      if ($this->upload->do_upload('file_surat_masuk')) {
-        $gbr = $this->upload->data();
+  $this->upload->initialize($config);
+
+  $file = null;
+
+  if (!empty($_FILES['file_surat_masuk']['name'])) {
+    if ($this->upload->do_upload('file_surat_masuk')) {
+      $gbr = $this->upload->data();
 
     // Optional image resize (tidak wajib untuk PDF)
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = './assets/upload/' . $gbr['file_name'];
-        $config['create_thumb'] = FALSE;
-        $config['maintain_ratio'] = FALSE;
-        $config['quality'] = '100%';
-        $config['new_image'] = './assets/upload/' . $gbr['file_name'];
-        $this->load->library('image_lib', $config);
-        $this->image_lib->resize();
+      $config['image_library'] = 'gd2';
+      $config['source_image'] = './assets/upload/' . $gbr['file_name'];
+      $config['create_thumb'] = FALSE;
+      $config['maintain_ratio'] = FALSE;
+      $config['quality'] = '100%';
+      $config['new_image'] = './assets/upload/' . $gbr['file_name'];
+      $this->load->library('image_lib', $config);
+      $this->image_lib->resize();
 
-        $file = $gbr['file_name'];
-      } else {
-        $this->session->set_flashdata('toast', json_encode([
-          'icon'  => 'warning',
-          'title' => 'Ukuran atau format file tidak sesuai!'
-        ]));
-        redirect('Surat/masuk');
-      }
+      $file = $gbr['file_name'];
+    } else {
+      $this->session->set_flashdata('toast', json_encode([
+        'icon'  => 'warning',
+        'title' => 'Ukuran atau format file tidak sesuai!'
+      ]));
+      redirect('Surat/masuk');
     }
+  }
 
-    $sifat_surat      = $this->input->post('sifat_surat');
-    $tgl_terima   = $this->input->post('tgl_terima');
-    $no_agenda        = $this->input->post('no_agenda');
-    $perihal          = $this->input->post('perihal');
-    $no_surat         = $this->input->post('no_surat');
-    $tgl_surat_masuk  = $this->input->post('tgl_surat_masuk');
-    $asal_surat       = $this->input->post('asal_surat');
-    $nip_pegawai      = $this->input->post('nip_pegawai');
+  $sifat_surat      = $this->input->post('sifat_surat');
+  $tgl_terima   = $this->input->post('tgl_terima');
+  $no_agenda        = $this->input->post('no_agenda');
+  $perihal          = $this->input->post('perihal');
+  $no_surat         = $this->input->post('no_surat');
+  $tgl_surat_masuk  = $this->input->post('tgl_surat_masuk');
+  $asal_surat       = $this->input->post('asal_surat');
+  $nip_pegawai      = $this->input->post('nip_pegawai');
 
-    if (!empty($nip_pegawai)) {
-      $nip_lama = $this->M_surat_masuk->get_nip_by_no_surat($no_surat);
-      $hapus  = array_diff($nip_lama, $nip_pegawai);
-      $tambah = array_diff($nip_pegawai, $nip_lama);
-      $tetap  = array_intersect($nip_pegawai, $nip_lama);
+  if (!empty($nip_pegawai)) {
+    $nip_lama = $this->M_surat_masuk->get_nip_by_no_surat($no_surat);
+    $hapus  = array_diff($nip_lama, $nip_pegawai);
+    $tambah = array_diff($nip_pegawai, $nip_lama);
+    $tetap  = array_intersect($nip_pegawai, $nip_lama);
 
   // Hapus
-      foreach ($hapus as $nip) {
-        $this->M_surat_masuk->hapus_nip_by_no_surat($no_surat, $nip);
-      }
+    foreach ($hapus as $nip) {
+      $this->M_surat_masuk->hapus_nip_by_no_surat($no_surat, $nip);
+    }
 
   // Tambah
-      foreach ($tambah as $nip) {
-        $data = [
-          'sifat_surat'      => $sifat_surat,
-          'tgl_terima'       => $tgl_terima,
-          'no_agenda'        => $no_agenda,
-          'perihal'          => $perihal,
-          'no_surat'         => $no_surat,
-          'tgl_surat_masuk'  => $tgl_surat_masuk,
-          'asal_surat'       => $asal_surat,
-          'nip_pegawai'      => $nip
-        ];
+    foreach ($tambah as $nip) {
+      $data = [
+        'sifat_surat'      => $sifat_surat,
+        'tgl_terima'       => $tgl_terima,
+        'no_agenda'        => $no_agenda,
+        'perihal'          => $perihal,
+        'no_surat'         => $no_surat,
+        'tgl_surat_masuk'  => $tgl_surat_masuk,
+        'asal_surat'       => $asal_surat,
+        'nip_pegawai'      => $nip
+      ];
 
-        if ($file !== null) {
-          $data['file_surat_masuk'] = $file;
-        }
-
-        $this->M_surat_masuk->input_data($data, 'tbl_surat_masuk');
+      if ($file !== null) {
+        $data['file_surat_masuk'] = $file;
       }
+
+      $this->M_surat_masuk->input_data($data, 'tbl_surat_masuk');
+    }
 
   // Update yang tetap
-      foreach ($tetap as $nip) {
-        $data = [
-          'sifat_surat'      => $sifat_surat,
-          'tgl_terima'       => $tgl_terima,
-          'no_agenda'        => $no_agenda,
-          'perihal'          => $perihal,
-          'tgl_surat_masuk'  => $tgl_surat_masuk,
-          'asal_surat'       => $asal_surat
-        ];
+    foreach ($tetap as $nip) {
+      $data = [
+        'sifat_surat'      => $sifat_surat,
+        'tgl_terima'       => $tgl_terima,
+        'no_agenda'        => $no_agenda,
+        'perihal'          => $perihal,
+        'tgl_surat_masuk'  => $tgl_surat_masuk,
+        'asal_surat'       => $asal_surat
+      ];
 
-        if ($file !== null) {
-          $data['file_surat_masuk'] = $file;
-        }
-
-        $this->M_surat_masuk->update_data_by_nip($no_surat, $nip, $data);
+      if ($file !== null) {
+        $data['file_surat_masuk'] = $file;
       }
 
-      $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'success',
-        'title' => 'Data berhasil disimpan !'
-      ]));
-    } else {
-      $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'error',
-        'title' => 'NIP pegawai tidak boleh kosong!'
-      ]));
+      $this->M_surat_masuk->update_data_by_nip($no_surat, $nip, $data);
     }
 
-    redirect('Surat/masuk');
-
-  }
-  public function proses_delete_surat_masuk()
-  {
-    $no_surat = $this->input->post('no_surat');
-    $this->M_surat_masuk->delete_data($no_surat);
-    $this->M_surat_disposisi->delete_data($id_surat_masuk);
     $this->session->set_flashdata('toast', json_encode([
-      'icon' => 'success',  
-      'title' => 'Data berhasil dihapus!'
+      'icon'  => 'success',
+      'title' => 'Data berhasil disimpan !'
     ]));
-    redirect('Surat/masuk');
-  }
-  public function disposisi()
-  {
-
-    $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
-    $data['disposisi'] = $this->M_surat_disposisi->tampil_data();
-    $this->load->view('surat.disposisi.php',$data);
-  }
-  public function create_surat_disposisi()
-  {
-    $data['title'] = "Buat Surat Disposisi | PMI Kota Tangerang";
-    $data['masuk'] = $this->M_surat_masuk->tampil_data();
-    $data['pegawai'] = $this->M_pegawai->tampil_data();
-    $this->load->view('create.surat.disposisi.php',$data); 
-  }
-  public function update_surat_disposisi($id_surat_masuk)
-  {
-
-    $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
-    $data['masuk'] = $this->M_surat_masuk->tampil_data();
-    $data['pegawai'] = $this->M_pegawai->tampil_data_divisi();
-    $data['dp'] = $this->M_surat_masuk->cek_surat($id_surat_masuk);
-    $data['dpid'] = $this->M_surat_disposisi->get_byId($id_surat_masuk);
-
-    $this->load->view('update.surat.disposisi.php',$data); 
-
-  }
-
-  public function view_surat_disposisi ($id_surat_masuk)
-  {
-    $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
-    $data['masuk'] = $this->M_surat_masuk->tampil_data();
-    $data['pegawai'] = $this->M_pegawai->tampil_data_divisi();
-    $data['dp'] = $this->M_surat_masuk->cek_surat($id_surat_masuk);
-    $data['dpid'] = $this->M_surat_disposisi->get_byId($id_surat_masuk);
-
-    $this->load->view('view.surat.disposisi.php',$data); 
-  }
-
-  public function proses_delete_disposisi()
-  {
-    $id_disposisi = $this->input->post('id_disposisi');
-    $this->M_surat_disposisi->delete_data_disposisi($id_disposisi);
+  } else {
     $this->session->set_flashdata('toast', json_encode([
-      'icon' => 'success',  
-      'title' => 'Data berhasil dihapus!'
+      'icon'  => 'error',
+      'title' => 'NIP pegawai tidak boleh kosong!'
     ]));
-    redirect('Surat/disposisi');
   }
 
-  public function keluar()
-  {
-    $data['title'] = "Data Surat Keluar | PMI Kota Tangerang";
-    $data['keluar'] = $this->M_surat_keluar->tampil_data();
-    $this->load->view('surat.keluar.php',$data);   
-  }
-  public function create_surat_keluar()
-  {
-    $data['title'] = "Buat Surat Keluar | PMI Kota Tangerang";
-    $data['keluar'] = $this->M_surat_keluar->tampil_data();
+  redirect('Surat/masuk');
 
-    $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
-    $data['kode_surat'] = $this->M_nomor->tampil_data();
+}
+public function proses_delete_surat_masuk()
+{
+  $no_surat = $this->input->post('no_surat');
+  $this->M_surat_masuk->delete_data($no_surat);
+  $this->M_surat_disposisi->delete_data($id_surat_masuk);
+  $this->session->set_flashdata('toast', json_encode([
+    'icon' => 'success',  
+    'title' => 'Data berhasil dihapus!'
+  ]));
+  redirect('Surat/masuk');
+}
+public function disposisi()
+{
 
-    $this->load->view('create.surat.keluar.php',$data); 
-  }
-  public function proses_add_surat_keluar()
-  {
+  $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
+  $data['disposisi'] = $this->M_surat_disposisi->tampil_data();
+  $this->load->view('surat.disposisi.php',$data);
+}
+public function create_surat_disposisi()
+{
+  $data['title'] = "Buat Surat Disposisi | PMI Kota Tangerang";
+  $data['masuk'] = $this->M_surat_masuk->tampil_data();
+  $data['pegawai'] = $this->M_pegawai->tampil_data();
+  $this->load->view('create.surat.disposisi.php',$data); 
+}
+public function update_surat_disposisi($id_surat_masuk)
+{
 
-    $config['upload_path'] = './assets/upload/'; 
-    $config['allowed_types'] = 'pdf|PDF';
-    $config['encrypt_name'] = TRUE; 
-    $config['max_size']  = 10000;
+  $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
+  $data['masuk'] = $this->M_surat_masuk->tampil_data();
+  $data['pegawai'] = $this->M_pegawai->tampil_data_divisi();
+  $data['dp'] = $this->M_surat_masuk->cek_surat($id_surat_masuk);
+  $data['dpid'] = $this->M_surat_disposisi->get_byId($id_surat_masuk);
 
-    $this->upload->initialize($config);
-    if (!empty($_FILES['lampiran']['name'])) {
-      if ($this->upload->do_upload('lampiran')) {
-        $gbr = $this->upload->data();
+  $this->load->view('update.surat.disposisi.php',$data); 
 
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = './assets/upload/' . $gbr['file_name'];
-        $config['create_thumb'] = FALSE;
-        $config['maintain_ratio'] = FALSE;
-        $config['quality'] = '100%';
-        $config['new_image'] = './assets/upload/' . $gbr['file_name'];
-        $this->load->library('image_lib', $config);
-        $this->image_lib->resize();
+}
 
-        $file = $gbr['file_name'];
-        $tgl_surat_keluar      = $this->input->post('tgl_surat_keluar');
-        $no_surat       = $this->input->post('no_surat');
-        $id_kode        = $this->input->post('id_kode');
-        $bulan          = $this->input->post('bulan');
-        $tahun         = $this->input->post('tahun');
-        $perihal  = $this->input->post('perihal');
-        $kepada   = $this->input->post('kepada');
-        $isi_surat       = $this->input->post('isi_surat');
-        $nip_pegawai      = $this->input->post('nip_pegawai'); 
-        $status           = 'Pending';
+public function view_surat_disposisi ($id_surat_masuk)
+{
+  $data['title'] = "Data Surat Disposisi | PMI Kota Tangerang";
+  $data['masuk'] = $this->M_surat_masuk->tampil_data();
+  $data['pegawai'] = $this->M_pegawai->tampil_data_divisi();
+  $data['dp'] = $this->M_surat_masuk->cek_surat($id_surat_masuk);
+  $data['dpid'] = $this->M_surat_disposisi->get_byId($id_surat_masuk);
 
-        if (!empty($nip_pegawai)) {
-          foreach ($nip_pegawai as $nip) {
-            $data = [
-              'tgl_surat_keluar'      => $tgl_surat_keluar,
-              'id_kode'       => $id_kode,
-              'bulan'        => $bulan,
-              'tahun'          => $tahun,
-              'lampiran'         => $file,
-              'perihal'  => $perihal,
-              'kepada'  => $kepada,
-              'isi_surat'       => $isi_surat,
-              'status' => $status,
-              'nip_pegawai'      => $nip
-            ];
+  $this->load->view('view.surat.disposisi.php',$data); 
+}
 
-            $this->M_surat_keluar->input_data($data, 'tbl_surat_keluar');
-          }
+public function proses_delete_disposisi()
+{
+  $id_disposisi = $this->input->post('id_disposisi');
+  $this->M_surat_disposisi->delete_data_disposisi($id_disposisi);
+  $this->session->set_flashdata('toast', json_encode([
+    'icon' => 'success',  
+    'title' => 'Data berhasil dihapus!'
+  ]));
+  redirect('Surat/disposisi');
+}
 
-          $data = array(
+public function keluar()
+{
+  $data['title'] = "Data Surat Keluar | PMI Kota Tangerang";
+  $data['keluar'] = $this->M_surat_keluar->tampil_data();
+  $this->load->view('surat.keluar.php',$data);   
+}
+public function create_surat_keluar()
+{
+  $data['title'] = "Buat Surat Keluar | PMI Kota Tangerang";
+  $data['keluar'] = $this->M_surat_keluar->tampil_data();
 
-            'no_surat' => $no_surat,
+  $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
+  $data['kode_surat'] = $this->M_nomor->tampil_data();
 
-          );
+  $this->load->view('create.surat.keluar.php',$data); 
+}
+public function proses_add_surat_keluar()
+{
 
-          $where = array(
-            'id_kode' => $id_kode
-          );
+  $config['upload_path'] = './assets/upload/'; 
+  $config['allowed_types'] = 'pdf|PDF';
+  $config['encrypt_name'] = TRUE; 
+  $config['max_size']  = 10000;
 
-          $this->M_nomor->update_data($where,$data,'tbl_kode_surat');
-          $this->session->set_flashdata('toast', json_encode([
-            'icon'  => 'success',
-            'title' => 'Data berhasil disimpan untuk semua pegawai!'
-          ]));
-        } else {
-          $this->session->set_flashdata('toast', json_encode([
-            'icon'  => 'error',
-            'title' => 'NIP pegawai tidak boleh kosong!'
-          ]));
+  $this->upload->initialize($config);
+  if (!empty($_FILES['lampiran']['name'])) {
+    if ($this->upload->do_upload('lampiran')) {
+      $gbr = $this->upload->data();
+
+      $config['image_library'] = 'gd2';
+      $config['source_image'] = './assets/upload/' . $gbr['file_name'];
+      $config['create_thumb'] = FALSE;
+      $config['maintain_ratio'] = FALSE;
+      $config['quality'] = '100%';
+      $config['new_image'] = './assets/upload/' . $gbr['file_name'];
+      $this->load->library('image_lib', $config);
+      $this->image_lib->resize();
+
+      $file = $gbr['file_name'];
+      $tgl_surat_keluar      = $this->input->post('tgl_surat_keluar');
+      $no_surat       = $this->input->post('no_surat');
+      $id_kode        = $this->input->post('id_kode');
+      $bulan          = $this->input->post('bulan');
+      $tahun         = $this->input->post('tahun');
+      $perihal  = $this->input->post('perihal');
+      $kepada   = $this->input->post('kepada');
+      $isi_surat       = $this->input->post('isi_surat');
+      $nip_pegawai      = $this->input->post('nip_pegawai'); 
+      $status           = 'Pending';
+
+      if (!empty($nip_pegawai)) {
+        foreach ($nip_pegawai as $nip) {
+          $data = [
+            'tgl_surat_keluar'      => $tgl_surat_keluar,
+            'id_kode'       => $id_kode,
+            'bulan'        => $bulan,
+            'tahun'          => $tahun,
+            'lampiran'         => $file,
+            'perihal'  => $perihal,
+            'kepada'  => $kepada,
+            'isi_surat'       => $isi_surat,
+            'status' => $status,
+            'nip_pegawai'      => $nip
+          ];
+
+          $this->M_surat_keluar->input_data($data, 'tbl_surat_keluar');
         }
 
-      } else {
-        // Gagal upload file
+        $data = array(
+
+          'no_surat' => $no_surat,
+
+        );
+
+        $where = array(
+          'id_kode' => $id_kode
+        );
+
+        $this->M_nomor->update_data($where,$data,'tbl_kode_surat');
         $this->session->set_flashdata('toast', json_encode([
-          'icon'  => 'warning',
-          'title' => 'Ukuran atau format file tidak sesuai!'
+          'icon'  => 'success',
+          'title' => 'Data berhasil disimpan untuk semua pegawai!'
+        ]));
+      } else {
+        $this->session->set_flashdata('toast', json_encode([
+          'icon'  => 'error',
+          'title' => 'NIP pegawai tidak boleh kosong!'
         ]));
       }
+
     } else {
-    // Tidak ada file yang dipilih
+        // Gagal upload file
       $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'danger',
-        'title' => 'Data gagal tersimpan! File tidak ditemukan.'
+        'icon'  => 'warning',
+        'title' => 'Ukuran atau format file tidak sesuai!'
       ]));
     }
+  } else {
+    // Tidak ada file yang dipilih
+    $this->session->set_flashdata('toast', json_encode([
+      'icon'  => 'danger',
+      'title' => 'Data gagal tersimpan! File tidak ditemukan.'
+    ]));
+  }
 
 // Redirect setelah proses apapun
-    redirect('Surat/keluar');
+  redirect('Surat/keluar');
 
-  }
+}
 
-  public function update_surat_keluar($id_surat_keluar)
-  {
-    $data['title'] = "Data Surat Keluar | PMI Kota Tangerang";
-    $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
-    $data['sk'] = $this->M_surat_keluar->get_byId($id_surat_keluar);
-    $id_kode = $data['sk']->result_array()[0]['id_kode'];
-    $data['skid'] = $this->M_nomor->tampil_databyId($id_kode);
-    $data['kode_surat'] = $this->M_nomor->tampil_data();
-    $this->load->view('update.surat.keluar.php',$data); 
+public function update_surat_keluar($id_surat_keluar)
+{
+  $data['title'] = "Data Surat Keluar | PMI Kota Tangerang";
+  $data['pegawai'] = $this->M_pegawai->tampil_data_pimpinan();
+  $data['sk'] = $this->M_surat_keluar->get_byId($id_surat_keluar);
+  $id_kode = $data['sk']->result_array()[0]['id_kode'];
+  $data['skid'] = $this->M_nomor->tampil_databyId($id_kode);
+  $data['kode_surat'] = $this->M_nomor->tampil_data();
 
-  }
-  public function proses_update_surat_keluar()
-  {
-    $this->load->library('upload');
+  $this->load->view('update.surat.keluar.php',$data); 
 
-    $config = [
-      'upload_path'   => './assets/upload/',
-      'allowed_types' => 'pdf|PDF',
-      'encrypt_name'  => TRUE,
-      'max_size'      => 10000
-    ];
-    $this->upload->initialize($config);
+}
+public function proses_update_surat_keluar()
+{
+  $this->load->library('upload');
 
-    $file = null;
-    if (!empty($_FILES['lampiran']['name'])) {
-      if ($this->upload->do_upload('lampiran')) {
-        $upload_data = $this->upload->data();
-        $file = $upload_data['file_name'];
-      } else {
-        $this->session->set_flashdata('toast', json_encode([
-          'icon'  => 'warning',
-          'title' => 'Ukuran atau format file tidak sesuai!'
-        ]));
-        return redirect('Surat/keluar');
-      }
-    }
+  $config = [
+    'upload_path'   => './assets/upload/',
+    'allowed_types' => 'pdf|PDF',
+    'encrypt_name'  => TRUE,
+    'max_size'      => 10000
+  ];
+  $this->upload->initialize($config);
 
-    $tgl_surat_keluar = $this->input->post('tgl_surat_keluar');
-    $no_surat         = $this->input->post('no_surat');
-    $id_kode          = $this->input->post('id_kode');
-    $bulan            = $this->input->post('bulan');
-    $tahun            = $this->input->post('tahun');
-    $perihal          = $this->input->post('perihal');
-    $kepada           = $this->input->post('kepada');
-    $isi_surat        = $this->input->post('isi_surat');
-    $nip_pegawai      = $this->input->post('nip_pegawai');
-    $hak_akses        = $this->session->userdata('user_level');
-
-    $status = ($hak_akses == '1') ? $this->input->post('status') : 'Pending';
-
-    if (!empty($nip_pegawai)) {
-      if (!is_array($nip_pegawai)) {
-        $nip_pegawai = [$nip_pegawai];
-      }
-
-      $nip_lama = $this->M_surat_keluar->get_nip_by_no_surat($tgl_surat_keluar, $id_kode, $nip_pegawai);
-      if (!is_array($nip_lama)) {
-        $nip_lama = [];
-      }
-
-      $hapus  = array_diff($nip_lama, $nip_pegawai);
-      $tambah = array_diff($nip_pegawai, $nip_lama);
-      $tetap  = array_intersect($nip_pegawai, $nip_lama);
-
-      foreach ($hapus as $nip) {
-        $this->M_surat_keluar->hapus_nip_by_no_surat($tgl_surat_keluar, $nip);
-      }
-
-      foreach ($tambah as $nip) {
-        $data = [
-          'tgl_surat_keluar' => $tgl_surat_keluar,
-          'id_kode'          => $id_kode,
-          'bulan'            => $bulan,
-          'tahun'            => $tahun,
-          'perihal'          => $perihal,
-          'kepada'           => $kepada,
-          'isi_surat'        => $isi_surat,
-          'status'           => $status,
-          'nip_pegawai'      => $nip
-        ];
-
-        if ($file !== null) {
-          $data['lampiran'] = $file;
-        }
-
-        $this->M_surat_keluar->input_data($data, 'tbl_surat_keluar');
-      }
-
-      foreach ($tetap as $nip) {
-        $data = [
-          'tgl_surat_keluar' => $tgl_surat_keluar,
-          'id_kode'          => $id_kode,
-          'bulan'            => $bulan,
-          'tahun'            => $tahun,
-          'perihal'          => $perihal,
-          'kepada'           => $kepada,
-          'isi_surat'        => $isi_surat,
-          'status'           => $status
-        ];
-
-        if ($file !== null) {
-          $data['lampiran'] = $file;
-        }
-
-        $this->M_surat_keluar->update_data_by_nip($tgl_surat_keluar, $nip, $data);
-      }
-
-      $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'success',
-        'title' => 'Data berhasil disimpan!'
-      ]));
+  $file = null;
+  if (!empty($_FILES['lampiran']['name'])) {
+    if ($this->upload->do_upload('lampiran')) {
+      $upload_data = $this->upload->data();
+      $file = $upload_data['file_name'];
     } else {
       $this->session->set_flashdata('toast', json_encode([
-        'icon'  => 'error',
-        'title' => 'NIP pegawai tidak boleh kosong!'
+        'icon'  => 'warning',
+        'title' => 'Ukuran atau format file tidak sesuai!'
       ]));
+      return redirect('Surat/keluar');
+    }
+  }
+
+  $tgl_surat_keluar = $this->input->post('tgl_surat_keluar');
+  $no_surat         = $this->input->post('no_surat');
+  $id_kode          = $this->input->post('id_kode');
+  $bulan            = $this->input->post('bulan');
+  $tahun            = $this->input->post('tahun');
+  $perihal          = $this->input->post('perihal');
+  $kepada           = $this->input->post('kepada');
+  $isi_surat        = $this->input->post('isi_surat');
+  $nip_pegawai      = $this->input->post('nip_pegawai');
+  $hak_akses        = $this->session->userdata('user_level');
+
+  $status = ($hak_akses == '1') ? $this->input->post('status') : 'Pending';
+
+  if (!empty($nip_pegawai)) {
+    if (!is_array($nip_pegawai)) {
+      $nip_pegawai = [$nip_pegawai];
     }
 
-    redirect('Surat/keluar');
+    $nip_lama = $this->M_surat_keluar->get_nip_by_no_surat($tgl_surat_keluar, $id_kode, $nip_pegawai);
+    if (!is_array($nip_lama)) {
+      $nip_lama = [];
+    }
+
+    $hapus  = array_diff($nip_lama, $nip_pegawai);
+    $tambah = array_diff($nip_pegawai, $nip_lama);
+    $tetap  = array_intersect($nip_pegawai, $nip_lama);
+
+    foreach ($hapus as $nip) {
+      $this->M_surat_keluar->hapus_nip_by_no_surat($tgl_surat_keluar, $nip);
+    }
+
+    foreach ($tambah as $nip) {
+      $data = [
+        'tgl_surat_keluar' => $tgl_surat_keluar,
+        'id_kode'          => $id_kode,
+        'bulan'            => $bulan,
+        'tahun'            => $tahun,
+        'perihal'          => $perihal,
+        'kepada'           => $kepada,
+        'isi_surat'        => $isi_surat,
+        'status'           => $status,
+        'nip_pegawai'      => $nip
+      ];
+
+      if ($file !== null) {
+        $data['lampiran'] = $file;
+      }
+
+      $this->M_surat_keluar->input_data($data, 'tbl_surat_keluar');
+    }
+
+    foreach ($tetap as $nip) {
+      $data = [
+        'tgl_surat_keluar' => $tgl_surat_keluar,
+        'id_kode'          => $id_kode,
+        'bulan'            => $bulan,
+        'tahun'            => $tahun,
+        'perihal'          => $perihal,
+        'kepada'           => $kepada,
+        'isi_surat'        => $isi_surat,
+        'status'           => $status
+      ];
+
+      if ($file !== null) {
+        $data['lampiran'] = $file;
+      }
+
+      $this->M_surat_keluar->update_data_by_nip($tgl_surat_keluar, $nip, $data);
+    }
+
+    $this->session->set_flashdata('toast', json_encode([
+      'icon'  => 'success',
+      'title' => 'Data berhasil disimpan!'
+    ]));
+  } else {
+    $this->session->set_flashdata('toast', json_encode([
+      'icon'  => 'error',
+      'title' => 'NIP pegawai tidak boleh kosong!'
+    ]));
   }
 
-  public function proses_delete_surat_keluar()
-  {
-    $id_kode = $this->input->post('id_kode');
-    $tgl_surat_keluar = $this->input->post('tgl_surat_keluar');
-    $this->M_surat_keluar->delete_data($tgl_surat_keluar,$id_kode);
-    $this->session->set_flashdata('toast', json_encode([
-      'icon' => 'success',  
-      'title' => 'Data berhasil dihapus!'
-    ]));
-    redirect('Surat/keluar');
-  }
-  function format_tanggal_indo($tanggal) {
-    $bulan = [
-      1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
+  redirect('Surat/keluar');
+}
+
+public function proses_delete_surat_keluar()
+{
+  $id_kode = $this->input->post('id_kode');
+  $tgl_surat_keluar = $this->input->post('tgl_surat_keluar');
+  $this->M_surat_keluar->delete_data($tgl_surat_keluar,$id_kode);
+  $this->session->set_flashdata('toast', json_encode([
+    'icon' => 'success',  
+    'title' => 'Data berhasil dihapus!'
+  ]));
+  redirect('Surat/keluar');
+}
+function format_tanggal_indo($tanggal) {
+  $bulan = [
+    1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  ];
 
     $pecah = explode('-', $tanggal); // [0] = tahun, [1] = bulan, [2] = hari
     return $pecah[2] . ' ' . $bulan[(int)$pecah[1]] . ' ' . $pecah[0];
